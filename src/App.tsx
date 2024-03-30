@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import "./App.css";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "./components/ui/progress";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
+  const [isFetching, setIsFetching] = useState(false); // Track if fetching is in progress
+  const [progress, setProgress] = useState(0); // Progress percentage
 
   const handleClick = async () => {
     try {
+      setIsFetching(true); // Start fetching
       const response = await fetchOctoAI(inputText);
       setOutputText(response);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
+    } finally {
+      setIsFetching(false); // End fetching
     }
   };
 
@@ -26,6 +32,16 @@ function App() {
   };
 
   const fetchOctoAI = async (text: string) => {
+    // Simulating progress approximation
+    let currentProgress = 0;
+    const progressInterval = setInterval(() => {
+      currentProgress += Math.random() * 10; // Increment progress by a random value
+      if (currentProgress > 90) {
+        clearInterval(progressInterval); // Stop interval if progress reaches near completion
+      }
+      setProgress(Math.min(currentProgress, 100)); // Cap progress at 100%
+    }, 500); // Update progress every 500ms
+
     const requestData = {
       messages: [
         {
@@ -55,6 +71,9 @@ function App() {
       throw new Error("Failed to fetch response");
     }
 
+    clearInterval(progressInterval); // Stop interval when fetch is complete
+    setProgress(100); // Set progress to 100% when fetch is complete
+
     const responseData = await response.json();
     return responseData.choices[0].message.content;
   };
@@ -82,6 +101,12 @@ function App() {
           Summarize text
         </Button>
       </div>
+      {/* Show progress bar when fetching */}
+      {isFetching && (
+        <div className="max-w-60 mx-auto my-4 flex justify-center">
+          <Progress value={progress} />
+        </div>
+      )}
 
       {outputText && (
         <div className="bg-gray-100 rounded-md p-4 my-4">

@@ -1,5 +1,3 @@
-
-
 # AI Tools
 
 This app provides useful AI tools. Right now, it can summarize text.
@@ -10,12 +8,10 @@ This app provides useful AI tools. Right now, it can summarize text.
 
 **Server:** Node
 
-
 ## Authors
 
 - [@m-kuehnle](https://www.github.com/m-kuehnle)
 - [@Leo17220310](https://www.github.com/Leo17220310)
-
 
 ## Run Locally
 
@@ -43,11 +39,9 @@ Start the development server
   npm run dev
 ```
 
-
 ## Demo
 
 Use the Live App: https://ai-tools.kuehnle.me
-
 
 ## Environment Variables
 
@@ -55,8 +49,6 @@ To run this project, you will need to add the following environment variables to
 
 `VITE_OCTOAI_TOKEN`
 
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-

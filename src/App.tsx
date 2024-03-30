@@ -81,7 +81,6 @@ function App() {
           <p>{outputText}</p>
         </div>
       )}
-      
     </>
   );
 }

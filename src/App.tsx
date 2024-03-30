@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress"
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -66,15 +67,14 @@ function App() {
 
   return (
     <>
-      <h1>AI Tool</h1>
-      <div className="flex w-full max-w-sm items-center space-x-2">
-        <Input
-          type="text"
-          placeholder="Text ..."
+      <h1>AI TOOL</h1>
+      <div className="grid w-full gap-2">
+        <Textarea
+          placeholder="Type your message here."
           value={inputText}
           onChange={handleInputChange}
         />
-        <Button onClick={handleClick}>Summarize</Button>
+        <Button onClick={handleClick}>Send message</Button>
       </div>
 
       {outputText && (
@@ -82,6 +82,7 @@ function App() {
           <p>{outputText}</p>
         </div>
       )}
+      
     </>
   );
 }

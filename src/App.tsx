@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <p>Hallo Welt Hallo Manuel</p>
+      <p>Ai Tool</p>
       <Button>Click</Button>
     </>
   )

@@ -3,6 +3,18 @@ import "./App.css";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "./components/ui/progress";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { AlertCircle } from "lucide-react"
+ 
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -11,10 +23,17 @@ function App() {
   const [outputText, setOutputText] = useState("");
   const [isFetching, setIsFetching] = useState(false); // Track if fetching is in progress
   const [progress, setProgress] = useState(0); // Progress percentage
+  const [showAlert, setShowAlert] = useState(false); // Track if alert should be shown
 
   const handleClick = async () => {
     try {
       setIsFetching(true); // Start fetching
+
+      // Check if inputText contains at least 10 words
+      if (countWords(inputText) < 15) {
+        setShowAlert(true);
+        return;
+      }
       const response = await fetchOctoAI(inputText);
       setOutputText(response);
     } catch (error) {
@@ -25,10 +44,9 @@ function App() {
     }
   };
 
-  const handleInputChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputText(e.target.value);
+    setShowAlert(false); // Hide alert when input changes
   };
 
   const fetchOctoAI = async (text: string) => {
@@ -78,13 +96,25 @@ function App() {
     return responseData.choices[0].message.content;
   };
 
+  // Function to count words in a string
+  const countWords = (text: string) => {
+    return text.split(/\s+/).filter((word) => word !== "").length;
+  };
+
   return (
     <>
-      <div className="flex flex-start my-10 ml-4">
-        <p className="text-xl tracking-wider text-gray-900">
+      <link rel="icon" href="favicon.ico" />
+
+      <div className="flex items-center my-10 ml-4">
+        <h1 className="text-xl tracking-wider text-gray-900 mr-4">
           AI Text Summarizer.
-        </p>
+        </h1>
+        <Avatar>
+          <AvatarImage src="favicon.ico" alt="@shadcn" /> 
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
       </div>
+
       <h1 className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center">
         <span className="text-indigo-600">Insert Text.</span>
         <br />
@@ -97,11 +127,20 @@ function App() {
           value={inputText}
           onChange={handleInputChange}
         />
+        {showAlert && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              Please enter at least 15 words to summarize.
+            </AlertDescription>
+          </Alert>
+        )}
         <Button className="max-w-fit" onClick={handleClick}>
           Summarize text
         </Button>
       </div>
-      {/* Show progress bar when fetching */}
+
       {isFetching && (
         <div className="max-w-60 mx-auto my-4 flex justify-center">
           <Progress value={progress} />

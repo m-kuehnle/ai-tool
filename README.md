@@ -1,4 +1,4 @@
-# AI Tools
+# AI Tool App
 
 This app provides useful AI tools. Right now, it can summarize text.
 
@@ -41,7 +41,7 @@ Start the development server
 
 ## Demo
 
-Use the Live App: https://ai-tools.kuehnle.me
+Use the Live App: https://ai-tool.kuehnle.me
 
 ## Environment Variables
 

@@ -18,7 +18,7 @@ This app provides useful AI tools. Right now, it can summarize text.
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/m-kuehnle/ai-tool
 ```
 
 Go to the project directory

@@ -30,15 +30,10 @@ function App() {
       messages: [
         {
           role: "system",
-          content: "Bitte fasse folgenden Text auf Deutsch sehr kurz zusammen:",
-        },
-        {
-          role: "user",
-          content: text,
+          content: `Summarize the following in German language:${text}`,
         },
       ],
-      model: "llama-2-13b-chat",
-      max_tokens: 128,
+      model: "mixtral-8x7b-instruct-fp16",
       presence_penalty: 0,
       temperature: 0.1,
       top_p: 0.9,
@@ -66,7 +61,7 @@ function App() {
 
   return (
     <>
-      <h1>AI TOOL</h1>
+      <h1 className="text-4xl mb-5">AI Text Summarizer. </h1>
       <div className="grid w-full gap-2">
         <Textarea
           placeholder="Type your message here."

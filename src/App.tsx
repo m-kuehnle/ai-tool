@@ -109,7 +109,7 @@ function App() {
       )}
 
       {outputText && (
-        <div className="bg-gray-100 rounded-md p-4 my-4">
+        <div className="bg-gray-100 rounded-md p-4 m-4">
           <p className="text-gray-800">{outputText}</p>
         </div>
       )}

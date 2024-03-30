@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./App.css";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress"
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 

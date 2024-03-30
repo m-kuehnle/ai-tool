@@ -61,7 +61,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-start my-10">
+      <div className="flex flex-start my-10 ml-4">
         <p className="text-xl tracking-wider text-gray-900">
           AI Text Summarizer.
         </p>
@@ -72,7 +72,7 @@ function App() {
         <span className="text-gray-600">Get Summary.</span>
       </h1>
 
-      <div className="flex flex-col gap-2 items-center">
+      <div className="flex flex-col gap-2 items-center m-4">
         <Textarea
           placeholder="Insert your text here..."
           value={inputText}

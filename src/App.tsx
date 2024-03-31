@@ -89,8 +89,8 @@ function App() {
       throw new Error("Failed to fetch response");
     }
 
-    clearInterval(progressInterval); // Stop interval when fetch is complete
-    setProgress(100); // Set progress to 100% when fetch is complete
+    clearInterval(progressInterval);
+    setProgress(100); 
 
     const responseData = await response.json();
     return responseData.choices[0].message.content;

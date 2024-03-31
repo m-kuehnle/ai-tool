@@ -1,70 +1,78 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "./components/ui/progress";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import { AlertCircle } from "lucide-react"
- 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "./components/ui/button";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
+
+
+
+  // Zustände initialisieren
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [isFetching, setIsFetching] = useState(false); // Track if fetching is in progress
-  const [progress, setProgress] = useState(0); // Progress percentage
-  const [showAlert, setShowAlert] = useState(false); // Track if alert should be shown
+  const [isFetching, setIsFetching] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [fileSummarizerClicked] = useState(false);
 
+
+
+  // Funktion zum Verarbeiten des Klicks auf die Schaltfläche
   const handleClick = async () => {
     try {
-      setIsFetching(true); // Start fetching
+      setIsFetching(true);
 
-      // Check if inputText contains at least 10 words
+      // Überprüfen, ob die Eingabe mehr als 15 Wörter enthält
       if (countWords(inputText) < 15) {
         setShowAlert(true);
         return;
       }
+      // Anfrage an die API senden und Antwort verarbeiten
       const response = await fetchOctoAI(inputText);
       setOutputText(response);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
     } finally {
-      setIsFetching(false); // End fetching
+      setIsFetching(false); 
     }
   };
 
+
+
+
+  // Funktion zum Aktualisieren des Eingabefelds
   const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputText(e.target.value);
-    setShowAlert(false); // Hide alert when input changes
+    setShowAlert(false);
   };
 
+
+
+
+  // Funktion zum Abrufen der Daten von der API
   const fetchOctoAI = async (text: string) => {
-    // Simulating progress approximation
     let currentProgress = 0;
     const progressInterval = setInterval(() => {
-      currentProgress += Math.random() * 10; // Increment progress by a random value
+      currentProgress += Math.random() * 10; 
       if (currentProgress > 90) {
-        clearInterval(progressInterval); // Stop interval if progress reaches near completion
+        clearInterval(progressInterval); 
       }
-      setProgress(Math.min(currentProgress, 100)); // Cap progress at 100%
-    }, 500); // Update progress every 500ms
+      setProgress(Math.min(currentProgress, 100)); 
+    }, 500); 
 
+    // Anfrage an die API senden
     const requestData = {
       messages: [
         {
           role: "system",
-          content: `Summarize the following in German language:${text}`,
+          content: `summarize the text as briefly as possible and that all important things are in the text in german language ${text}`,
         },
       ],
       model: "mixtral-8x7b-instruct-fp16",
@@ -90,43 +98,54 @@ function App() {
     }
 
     clearInterval(progressInterval);
-    setProgress(100); 
+    setProgress(100);
 
     const responseData = await response.json();
     return responseData.choices[0].message.content;
   };
 
-  // Function to count words in a string
+
+
+
+  // Funktion zum Zählen der Wörter in einem Text
   const countWords = (text: string) => {
     return text.split(/\s+/).filter((word) => word !== "").length;
   };
 
+
+
+// HTML UND TAILWINDCSS CODE
   return (
     <>
       <link rel="icon" href="favicon.ico" />
-
-      <div className="flex items-center my-10 ml-4">
-        <h1 className="text-xl tracking-wider text-gray-900 mr-4">
-          AI Text Summarizer.
-        </h1>
-        <Avatar>
-          <AvatarImage src="favicon.ico" alt="@shadcn" /> 
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </div>
-
+      {/* Überschrift */}
       <h1 className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center">
         <span className="text-indigo-600">Insert Text.</span>
         <br />
         <span className="text-gray-600">Get Summary.</span>
       </h1>
 
+
+      {/* Avatar */}
+      <div className="flex items-center my-10 ml-4">
+        <h1 className="text-xl tracking-wider text-gray-900 mr-4">
+          AI Text Summarizer.
+        </h1>
+        <Avatar>
+          <AvatarImage src="favicon.ico" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </div>
+
+
+      {/* Texteingabe und Schaltfläche */}
       <div className="flex flex-col gap-2 items-center m-4">
         <Textarea
           placeholder="Insert your text here..."
           value={inputText}
           onChange={handleInputChange}
         />
+        {/* Fehlermeldung anzeigen, falls erforderlich */}
         {showAlert && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
@@ -136,23 +155,41 @@ function App() {
             </AlertDescription>
           </Alert>
         )}
+
+
+        {/* Schaltfläche zum Zusammenfassen des Textes */}
         <Button className="max-w-fit" onClick={handleClick}>
           Summarize text
         </Button>
-      </div>
 
+
+
+      </div>
+      {/* Ladeanimation anzeigen, falls Daten abgerufen werden */}
       {isFetching && (
         <div className="max-w-60 mx-auto my-4 flex justify-center">
           <Progress value={progress} />
         </div>
       )}
 
-      {outputText && (
+
+
+      {/* Zusammenfassungstext anzeigen, falls vorhanden und Datei-Zusammenfasser nicht geklickt wurde */}
+      {outputText && !fileSummarizerClicked && (
         <div className="bg-gray-100 rounded-md p-4 m-4">
           <p className="text-gray-800">{outputText}</p>
         </div>
       )}
 
+
+      {/* Hintergrund für Datei-Zusammenfasser anzeigen, falls geklickt */}
+      {fileSummarizerClicked && (
+        <div className="absolute inset-0 bg-white"></div>
+      )}
+
+
+      
+      {/* Grafische Hintergrundanimation */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div
           className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"

@@ -1,0 +1,22 @@
+<mxfile host="65bd71144e">
+    <diagram id="tBq-4kwR3G_gBCQxn6-o" name="Page-1">
+        <mxGraphModel dx="315" dy="179" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Insert Text" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="170" width="90" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Ai Tool" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#6666FF;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="150" width="90" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Insert Files." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="315" y="180" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Get Summary." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#6666FF;" vertex="1" parent="1">
+                    <mxGeometry x="325" y="200" width="90" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

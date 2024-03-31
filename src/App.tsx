@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import "./App.css";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "./components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "./components/ui/button";
+import icon from "./assets/favicon.ico";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
-
-
-
   // Zustände initialisieren
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
@@ -20,8 +17,6 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [fileSummarizerClicked] = useState(false);
-
-
 
   // Funktion zum Verarbeiten des Klicks auf die Schaltfläche
   const handleClick = async () => {
@@ -40,32 +35,28 @@ function App() {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
     } finally {
-      setIsFetching(false); 
+      setIsFetching(false);
     }
   };
 
-
-
-
   // Funktion zum Aktualisieren des Eingabefelds
-  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setInputText(e.target.value);
     setShowAlert(false);
   };
-
-
-
 
   // Funktion zum Abrufen der Daten von der API
   const fetchOctoAI = async (text: string) => {
     let currentProgress = 0;
     const progressInterval = setInterval(() => {
-      currentProgress += Math.random() * 10; 
+      currentProgress += Math.random() * 10;
       if (currentProgress > 90) {
-        clearInterval(progressInterval); 
+        clearInterval(progressInterval);
       }
-      setProgress(Math.min(currentProgress, 100)); 
-    }, 500); 
+      setProgress(Math.min(currentProgress, 100));
+    }, 500);
 
     // Anfrage an die API senden
     const requestData = {
@@ -104,39 +95,29 @@ function App() {
     return responseData.choices[0].message.content;
   };
 
-
-
-
   // Funktion zum Zählen der Wörter in einem Text
   const countWords = (text: string) => {
     return text.split(/\s+/).filter((word) => word !== "").length;
   };
 
-
-
-// HTML UND TAILWINDCSS CODE
+  // HTML UND TAILWINDCSS CODE
   return (
     <>
-      <link rel="icon" href="favicon.ico" />
-      {/* Überschrift */}
+      {/* Header */}
+      <div className="flex justify-between items-center my-10 mx-4">
+        <h1 className="text-2xl font-semibold text-gray-900 tracking-wide">
+          AI Text Summarizer.
+        </h1>
+        <div className="flex items-center justify-center">
+          <img src={icon} alt="icon" className="w-12 h-12" />
+        </div>
+      </div>
+
       <h1 className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center">
         <span className="text-indigo-600">Insert Text.</span>
         <br />
         <span className="text-gray-600">Get Summary.</span>
       </h1>
-
-
-      {/* Avatar */}
-      <div className="flex items-center my-10 ml-4">
-        <h1 className="text-xl tracking-wider text-gray-900 mr-4">
-          AI Text Summarizer.
-        </h1>
-        <Avatar>
-          <AvatarImage src="favicon.ico" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </div>
-
 
       {/* Texteingabe und Schaltfläche */}
       <div className="flex flex-col gap-2 items-center m-4">
@@ -147,7 +128,7 @@ function App() {
         />
         {/* Fehlermeldung anzeigen, falls erforderlich */}
         {showAlert && (
-          <Alert variant="destructive" className="mb-4">
+          <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>
@@ -156,14 +137,10 @@ function App() {
           </Alert>
         )}
 
-
         {/* Schaltfläche zum Zusammenfassen des Textes */}
         <Button className="max-w-fit" onClick={handleClick}>
           Summarize text
         </Button>
-
-
-
       </div>
       {/* Ladeanimation anzeigen, falls Daten abgerufen werden */}
       {isFetching && (
@@ -172,23 +149,18 @@ function App() {
         </div>
       )}
 
-
-
       {/* Zusammenfassungstext anzeigen, falls vorhanden und Datei-Zusammenfasser nicht geklickt wurde */}
       {outputText && !fileSummarizerClicked && (
-        <div className="bg-gray-100 rounded-md p-4 m-4">
+        <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10">
           <p className="text-gray-800">{outputText}</p>
         </div>
       )}
-
 
       {/* Hintergrund für Datei-Zusammenfasser anzeigen, falls geklickt */}
       {fileSummarizerClicked && (
         <div className="absolute inset-0 bg-white"></div>
       )}
 
-
-      
       {/* Grafische Hintergrundanimation */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div

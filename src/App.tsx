@@ -111,8 +111,6 @@ function App() {
     setShowAlert(false); // Versteckt den Alert
   };
 
-  // Rest des Codes wie zuvor...
-
   // HTML UND TAILWINDCSS CODE
   return (
     <>
@@ -126,11 +124,9 @@ function App() {
         </div>
       </div>
 
-      {/* Restlicher Inhalt */}
       <div className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center z-10 relative">
         <span className="text-indigo-600">AI Summarizer.</span>
         <br />
-        {/* Ändern Sie "Insert File" und "Insert Text" in Buttons */}
         <button
           className="text-gray-600 hover:underline hover:text-gray-600 focus:outline-none"
           onClick={() => handleInsertClick(false)} // Klicken Sie auf diese Schaltfläche, um das Textfeld anzuzeigen
@@ -167,7 +163,7 @@ function App() {
           // "Coming Soon" anzeigen, wenn auf "Insert File" geklickt wird
           showComingSoon && (
             <div className="text-4xl text-purple-600">
-              Coming Soon
+              Coming Soon.
             </div>
           )
         )}

@@ -7,8 +7,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "./components/ui/button";
 import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { fetchOctoAI, countWords } from "./api+countWords"; // Importiere die Funktionen aus der api.ts Datei
+
+
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
+
+
 
 function App() {
   // Zustände initialisieren
@@ -18,18 +23,20 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
 
+
+
   // Funktion zum Verarbeiten des Klicks auf die Schaltfläche
   const handleClick = async () => {
     try {
       setIsFetching(true);
-
+  
       // Überprüfen, ob die Eingabe mehr als 15 Wörter enthält
       if (countWords(inputText) < 15) {
         setShowAlert(true);
         return;
       }
-
-      const response = await fetchOctoAI(inputText);
+  
+      const response = await fetchOctoAI(inputText, setProgress, VITE_OCTOAI_TOKEN);
       setOutputText(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -39,6 +46,9 @@ function App() {
     }
   };
 
+
+
+
   // Funktion zum Aktualisieren des Eingabefelds
   const handleInputChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -47,62 +57,12 @@ function App() {
     setShowAlert(false);
   };
 
-  // Funktion zum Abrufen der Daten von der API
-  const fetchOctoAI = async (text: string) => {
-    let currentProgress = 0;
-    const progressInterval = setInterval(() => {
-      currentProgress += Math.random() * 10;
-      if (currentProgress > 90) {
-        clearInterval(progressInterval);
-      }
-      setProgress(Math.min(currentProgress, 100));
-    }, 500);
 
-    // Anfrage an die API senden
-    const requestData = {
-      messages: [
-        {
-          role: "system",
-          content: `summarize the text as briefly as possible and that all important things are in the text in german ${text}`,
-        },
-      ],
-      model: "mixtral-8x7b-instruct-fp16",
-      presence_penalty: 0,
-      temperature: 0.1,
-      top_p: 0.9,
-    };
 
-    const response = await fetch(
-      "https://text.octoai.run/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${VITE_OCTOAI_TOKEN}`,
-        },
-        body: JSON.stringify(requestData),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch response");
-    }
-
-    clearInterval(progressInterval);
-    setProgress(100);
-
-    const responseData = await response.json();
-    return responseData.choices[0].message.content;
-  };
-
-  // Funktion zum Zählen der Wörter in einem Text
-  const countWords = (text: string) => {
-    return text.split(/\s+/).filter((word) => word !== "").length;
-  };
 
   // HTML UND TAILWINDCSS CODE
   return (
-    <>
+    <> 
       {/* Header */}
       <div className="flex justify-between items-center my-10 mx-4 z-10 relative">
         <h1 className="text-2xl font-semibold text-gray-900 tracking-wide">

@@ -68,7 +68,6 @@ function App() {
           <img src={icon} alt="icon" className="w-12 h-12" />
         </div>
       </div>
-
       {/* Titel */}
       <div className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center z-10 relative">
         <span className="text-indigo-600">AI Summarizer.</span>
@@ -79,7 +78,6 @@ function App() {
         <br />
         <span className="text-indigo-600">Get Summary.</span>
       </div>
-
       {/* Tabs um den Text oder Files auszuwählen um zu summarizen */}
       <div className="mt-7">
         <Tabs defaultValue="text-input" className="">
@@ -136,7 +134,6 @@ function App() {
           </TabsContent>
         </Tabs>
       </div>
-
       {/* Grafische Hintergrundanimation  1 */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div
@@ -147,9 +144,8 @@ function App() {
           }}
         />
       </div>
-      {/* Grafische Hintergrundanimation  2 */}
       <div
-        className="absolute bottom-0 right-0 z-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        className="absolute bottom-0 right-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         style={{ overflow: "visible" }}
       >
         <div
@@ -158,7 +154,8 @@ function App() {
             clipPath:
               "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
             right: "20%", // Positionierung am rechten Rand
-            bottom: "-60%", // Positionierung am unteren Rand
+            bottom: "-60%", // Positionierung unterhalb des Bildschirms
+            zIndex: -1, // Stellen Sie sicher, dass die Hintergrundanimation unterhalb des Buttons liegt
           }}
         />
       </div>

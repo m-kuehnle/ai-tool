@@ -1,3 +1,5 @@
+// IMPORTS
+
 import React, { useState } from "react";
 import "./App.css";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,11 +11,9 @@ import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api+countWords"; // Importiere die Funktionen aus der api.ts Datei
 
-
-
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
-
+// FUNKTIONEN
 
 function App() {
   // Zustände initialisieren
@@ -23,20 +23,22 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
 
-
-
   // Funktion zum Verarbeiten des Klicks auf die Schaltfläche
   const handleClick = async () => {
     try {
       setIsFetching(true);
-  
+
       // Überprüfen, ob die Eingabe mehr als 15 Wörter enthält
       if (countWords(inputText) < 15) {
         setShowAlert(true);
         return;
       }
-  
-      const response = await fetchOctoAI(inputText, setProgress, VITE_OCTOAI_TOKEN);
+
+      const response = await fetchOctoAI(
+        inputText,
+        setProgress,
+        VITE_OCTOAI_TOKEN
+      );
       setOutputText(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -46,9 +48,6 @@ function App() {
     }
   };
 
-
-
-
   // Funktion zum Aktualisieren des Eingabefelds
   const handleInputChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -57,12 +56,9 @@ function App() {
     setShowAlert(false);
   };
 
-
-
-
   // HTML UND TAILWINDCSS CODE
   return (
-    <> 
+    <>
       {/* Header */}
       <div className="flex justify-between items-center my-10 mx-4 z-10 relative">
         <h1 className="text-2xl font-semibold text-gray-900 tracking-wide">
@@ -123,24 +119,61 @@ function App() {
             {/* Zusammenfassungstext anzeigen, falls vorhanden und Datei-Zusammenfasser nicht geklickt wurde */}
             {outputText && (
               <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10 z-10 relative">
-                <h2 className="text-lg font-bold mb-2 text-gray-600 ">Summary:</h2>
+                <h2 className="text-lg font-bold mb-2 text-gray-600 ">
+                  Summary:
+                </h2>
                 <div className="border border-gray-600 p-4">
                   <p className="text-gray-800">{outputText}</p>
                 </div>
               </div>
             )}
           </TabsContent>
-          <TabsContent className="text-lg font-bold mb-2 text-indigo-600 " value="file-input">Coming Soon.</TabsContent>
+          <TabsContent
+            className="text-lg font-bold mb-2 text-indigo-600 "
+            value="file-input"
+          >
+            Coming Soon.
+          </TabsContent>
         </Tabs>
       </div>
 
-      {/* Grafische Hintergrundanimation */}
+      {/* Grafische Hintergrundanimation  1 */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div
           className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style={{
             clipPath:
               "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+          }}
+        />
+      </div>
+      {/* Grafische Hintergrundanimation  2 */}
+      <div
+        className="absolute bottom-0 right-0 z-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        style={{ overflow: "visible" }}
+      >
+        <div
+          className="relative w-[50rem] h-[50rem] rotate-[30deg] bg-gradient-to-tr from-indigo-600 to-indigo-700 opacity-30"
+          style={{
+            clipPath:
+              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            right: "20%", // Positionierung am rechten Rand
+            bottom: "-30%", // Positionierung am unteren Rand
+          }}
+        />
+      </div>
+      {/* Grafische Hintergrundanimation  3 */}
+      <div
+        className="absolute bottom-0 right-0 z-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        style={{ overflow: "visible" }}
+      >
+        <div
+          className="relative w-[50rem] h-[50rem] rotate-[30deg] bg-gradient-to-tr from-indigo-600 to-indigo-700 opacity-30"
+          style={{
+            clipPath:
+              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            left: "-140%", // Positionierung am linken Rand
+            bottom: "-30%", // Positionierung am unteren Rand
           }}
         />
       </div>

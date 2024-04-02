@@ -125,50 +125,54 @@ function App() {
       </div>
 
       {/* Tabs um den Text oder Files auszuwählen um zu summarizen */}
-      <Tabs defaultValue="text-input" className="">
-        <TabsList>
-          <TabsTrigger value="text-input">Input Text</TabsTrigger>
-          <TabsTrigger value="file-input">Input File</TabsTrigger>
-        </TabsList>
-        <TabsContent value="text-input">
-          {" "}
-          {/* Texteingabe und Schaltfläche */}
-          <div className="flex flex-col gap-2 items-center m-4 z-10 relative">
-            <Textarea
-              placeholder="Insert your text here..."
-              value={inputText}
-              onChange={handleInputChange}
-            />
-            <Button className="max-w-fit " onClick={handleClick}>
-              Summarize text
-            </Button>
+      <div className="mt-7">
+        <Tabs defaultValue="text-input" className="">
+          <TabsList>
+            <TabsTrigger value="text-input">Input Text</TabsTrigger>
+            <TabsTrigger value="file-input">Upload File</TabsTrigger>
+          </TabsList>
+          <TabsContent value="text-input">
+            {/* Texteingabe und Schaltfläche */}
+            <div className="flex flex-col gap-2 items-center m-4 z-10 relative">
+              <Textarea
+                placeholder="Insert your text here..."
+                value={inputText}
+                onChange={handleInputChange}
+              />
+              <Button className="max-w-fit " onClick={handleClick}>
+                Summarize Text
+              </Button>
 
-            {/* Fehlermeldung anzeigen, falls erforderlich */}
-            {showAlert && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                  Please enter at least 15 words to summarize.
-                </AlertDescription>
-              </Alert>
+              {/* Fehlermeldung anzeigen, falls erforderlich */}
+              {showAlert && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    Please enter at least 15 words to summarize.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+            {/* Ladeanimation anzeigen, falls Daten abgerufen werden */}
+            {isFetching && (
+              <div className="max-w-60 mx-auto my-4 flex justify-center z-10 relative">
+                <Progress value={progress} />
+              </div>
             )}
-          </div>
-          {/* Ladeanimation anzeigen, falls Daten abgerufen werden */}
-          {isFetching && (
-            <div className="max-w-60 mx-auto my-4 flex justify-center z-10 relative">
-              <Progress value={progress} />
-            </div>
-          )}
-          {/* Zusammenfassungstext anzeigen, falls vorhanden und Datei-Zusammenfasser nicht geklickt wurde */}
-          {outputText && (
-            <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10 z-10 relative">
-              <p className="text-gray-800">{outputText}</p>
-            </div>
-          )}
-        </TabsContent>
-        <TabsContent value="file-input">Coming Soon.</TabsContent>
-      </Tabs>
+            {/* Zusammenfassungstext anzeigen, falls vorhanden und Datei-Zusammenfasser nicht geklickt wurde */}
+            {outputText && (
+              <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10 z-10 relative">
+                <h2 className="text-lg font-bold mb-2 text-gray-600 ">Summary:</h2>
+                <div className="border border-gray-600 p-4">
+                  <p className="text-gray-800">{outputText}</p>
+                </div>
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent className="text-lg font-bold mb-2 text-indigo-600 " value="file-input">Coming Soon.</TabsContent>
+        </Tabs>
+      </div>
 
       {/* Grafische Hintergrundanimation */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">

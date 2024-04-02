@@ -11,7 +11,7 @@ import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api+countWords"; // Importiere die Funktionen aus der api.ts Datei
 import { Input } from "@/components/ui/input";
-import isMobile,{ isIPhone13 } from 'react-device-detect';
+import isMobile,{} from 'react-device-detect';
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 

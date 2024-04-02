@@ -11,6 +11,7 @@ import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api+countWords"; // Importiere die Funktionen aus der api.ts Datei
 import { Input } from "@/components/ui/input";
+import isMobile,{ isIPhone13 } from 'react-device-detect';
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -127,26 +128,27 @@ function App() {
               </div>
             )}
           </TabsContent>
-
           <TabsContent
-            className="text-lg font-bold mb-2 text-indigo-600 relative"
-            value="file-input"
-          >
-            {/* Text "Coming Soon" über der Dateiauswahl */}
-            <div className="absolute inset-x-0 flex items-center justify-center text-lg font-bold text-indigo-600 z-10 mt-10">
-              Coming Soon.
-            </div>
-            {/* Deaktiviertes Element mit Überlagerung */}
-            <div
-              className="grid w-full max-w-sm items-center gap-1.5 mt-36"
-              style={{ transform: "translateX(450px)", zIndex: 0 }}
-            >
-              {/* Deaktiviertes Eingabeelement */}
-              <Input id="picture" type="file" disabled={true} />
-              {/* Halbtransparente Überlagerung */}
-              <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
-            </div>
-          </TabsContent>
+      className="text-lg font-bold mb-2 text-indigo-600 relative"
+      value="file-input"
+    >
+      {/* Text "Coming Soon" über der Dateiauswahl */}
+      <div className="absolute inset-x-0 flex items-center justify-center text-lg font-bold text-indigo-600 z-10 mt-10">
+        Coming Soon.
+      </div>
+      <div
+        className={`grid w-full max-w-sm items-center gap-1.5 mt-36 ${
+          // Anpassen der Positionierung basierend auf dem Gerätetyp
+          isMobile ? 'transform: translateX(-450%)' : '' 
+        }`}
+        style={{ transform: 'translateX(450px)', zIndex: 0 }}
+      >
+        {/* Deaktiviertes Eingabeelement */}
+        <Input id="picture" type="file" disabled={true} />
+        {/* Halbtransparente Überlagerung */}
+        <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
+      </div>
+    </TabsContent>
         </Tabs>
       </div>
       {/* Grafische Hintergrundanimation  1 */}

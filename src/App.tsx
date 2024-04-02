@@ -135,7 +135,10 @@ function App() {
         </Tabs>
       </div>
       {/* Grafische Hintergrundanimation  1 */}
-      <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+      <div
+        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        style={{ pointerEvents: "none" }}
+      >
         <div
           className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style={{
@@ -144,9 +147,11 @@ function App() {
           }}
         />
       </div>
+
+      {/* Grafische Hintergrundanimation  2 */}
       <div
         className="absolute bottom-0 right-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        style={{ overflow: "visible" }}
+        style={{ overflow: "visible", pointerEvents: "none" }}
       >
         <div
           className="relative w-[50rem] h-[50rem] rotate-[30deg] bg-gradient-to-tr from-indigo-600 to-indigo-700 opacity-30"

@@ -11,8 +11,6 @@ import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api+countWords"; // Importiere die Funktionen aus der api.ts Datei
 import { Input } from "@/components/ui/input";
-import isMobile,{} from 'react-device-detect';
-
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 // FUNKTIONEN
@@ -129,26 +127,34 @@ function App() {
             )}
           </TabsContent>
           <TabsContent
-      className="text-lg font-bold mb-2 text-indigo-600 relative"
-      value="file-input"
-    >
-      {/* Text "Coming Soon" über der Dateiauswahl */}
-      <div className="absolute inset-x-0 flex items-center justify-center text-lg font-bold text-indigo-600 z-10 mt-10">
-        Coming Soon.
-      </div>
-      <div
-        className={`grid w-full max-w-sm items-center gap-1.5 mt-36 ${
-          // Anpassen der Positionierung basierend auf dem Gerätetyp
-          isMobile ? 'transform: ' : '' 
-        }`}
-        style={{ transform: 'translateX(450px)', zIndex: 0 }}
-      >
-        {/* Deaktiviertes Eingabeelement */}
-        <Input id="picture" type="file" disabled={true} />
-        {/* Halbtransparente Überlagerung */}
-        <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
-      </div>
-    </TabsContent>
+            className="text-lg font-bold mb-2 text-indigo-600 relative"
+            value="file-input"
+          >
+            {/* Text "Coming Soon" über der Dateiauswahl */}
+            <div className="absolute inset-x-0 flex items-center justify-center text-lg font-bold text-indigo-600 z-10 mt-10">
+              Coming Soon.
+            </div>
+            <div>
+              {/* Auf mobilen Geräten */}
+              <div className="relative md:hidden">
+                <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
+                <Input
+                  id="picture"
+                  type="file"
+                  disabled={true}
+                  className="left-0 z-10"
+                />
+              </div>
+
+              {/* Auf Desktop-Geräten */}
+              <div className="hidden md:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Input id="picture" type="file" disabled={true} />
+              </div>
+
+              {/* Halbtransparente Überlagerung */}
+              <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
       {/* Grafische Hintergrundanimation  1 */}
@@ -165,22 +171,7 @@ function App() {
         />
       </div>
 
-      {/* Grafische Hintergrundanimation  2 */}
-      <div
-        className="absolute bottom-0 right-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        style={{ overflow: "visible", pointerEvents: "none" }}
-      >
-        <div
-          className="relative w-[50rem] h-[50rem] rotate-[30deg] bg-gradient-to-tr from-indigo-600 to-indigo-700 opacity-30"
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            right: "20%", // Positionierung am rechten Rand
-            bottom: "-60%", // Positionierung unterhalb des Bildschirms
-            zIndex: -1, // Stellen Sie sicher, dass die Hintergrundanimation unterhalb des Buttons liegt
-          }}
-        />
-      </div>
+
     </>
   );
 }

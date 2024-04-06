@@ -10,9 +10,8 @@ import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api";
 import { Input } from "@/components/ui/input";
-import { ThemeProvider } from "next-themes"; 
+import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "./components/ui/ModeToggle";
-
 
 //API KEY
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -49,7 +48,9 @@ function App() {
     }
   };
 
-  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setInputText(e.target.value);
     setShowAlert(false);
   };
@@ -68,7 +69,7 @@ function App() {
             </div>
           </div>
         </div>
-        
+
         <div className="md:text-6xl mb-10 text-4xl font-bold text-gray-900 leading-tight text-center z-10 relative">
           <span className="text-indigo-600">AI Summarizer.</span>
           <br />
@@ -79,7 +80,6 @@ function App() {
           <span className="text-indigo-600">Get Summary.</span>
         </div>
 
-        
         <div className="mt-7">
           <Tabs defaultValue="text-input" className="">
             <TabsList>
@@ -96,9 +96,6 @@ function App() {
                 <Button className="max-w-fit " onClick={handleClick}>
                   Summarize Text
                 </Button>
-
-
-
 
                 {showAlert && (
                   <Alert variant="destructive">
@@ -117,8 +114,6 @@ function App() {
                 </div>
               )}
 
-
-
               {outputText && (
                 <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10 z-10 relative">
                   <h2 className="text-lg font-bold mb-2 text-gray-600 ">
@@ -131,39 +126,36 @@ function App() {
               )}
             </TabsContent>
 
-
-
             <TabsContent
               className="text-lg font-bold mb-2 text-indigo-600 relative"
               value="file-input"
             >
-              <div className="absolute inset-x-0 flex items-center justify-center text-lg font-bold text-indigo-600 z-10 mt-10">
-                Coming Soon.
-              </div>
               <div className="relative md:hidden">
-                <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
-                <Input
-                  id="picture"
-                  type="file"
-                  disabled={true}
-                  className="left-0 z-10"
-                />
+                <Input id="picture" type="file" className="left-0 z-10" />
               </div>
               <div className="hidden md:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <Input id="picture" type="file" disabled={true} />
+                <Input id="picture" type="file" />
               </div>
               <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
             </TabsContent>
           </Tabs>
         </div>
 
-        
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" style={{ pointerEvents: "none" }}>
-          <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style={{ clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" }} />
+        <div
+          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          style={{ pointerEvents: "none" }}
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
         </div>
       </ThemeProvider>
     </>
   );
 }
 
-export default App;
+export default App; 

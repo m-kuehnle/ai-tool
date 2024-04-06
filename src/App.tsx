@@ -13,6 +13,9 @@ import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "./components/ui/ModeToggle";
 import { TypewriterEffectSmooth } from "./components/ui/typewriter-effect";
 
+// @ts-ignore
+import pdfToText from "react-pdftotext";
+
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
@@ -21,21 +24,39 @@ function App() {
   const [isFetching, setIsFetching] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
+  const [pdfText, setPdfText] = useState("");
 
-  const handleClick = async () => {
+  const resetStateVariables = () => {
+    setInputText("");
+    setOutputText("");
+    setIsFetching(false);
+    setProgress(0);
+    setShowAlert(false);
+    setPdfText("");
+  };
+
+  const extractText = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      console.error("No file selected");
+      return;
+    }
+
+    const file = files[0];
+    pdfToText(file)
+      .then((text: string) => setPdfText(text)) // Update state with extracted text
+      .catch(() => console.error("Failed to extract text from pdf"));
+  };
+  const handleClick = async (text: string) => {
     try {
       setIsFetching(true);
 
-      if (countWords(inputText) < 15) {
+      if (countWords(text) < 15) {
         setShowAlert(true);
         return;
       }
 
-      const response = await fetchOctoAI(
-        inputText,
-        setProgress,
-        VITE_OCTOAI_TOKEN
-      );
+      const response = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
       setOutputText(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -68,12 +89,12 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center m-4">
+        <div className="flex justify-center items-center mx-4">
           <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600">
-            Get Summary
+            Get Summary.
           </h1>
         </div>
-        <div className="flex justify-center items-center m-4">
+        <div className="flex justify-center items-center mx-4">
           <TypewriterEffectSmooth
             words={[
               { text: "Insert Text.", className: "text-gray-600" },
@@ -85,60 +106,98 @@ function App() {
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
-              <TabsTrigger value="text-input">Input Text</TabsTrigger>
-              <TabsTrigger value="file-input">Upload File</TabsTrigger>
+              <TabsTrigger value="text-input" onClick={resetStateVariables}>
+                Input Text
+              </TabsTrigger>
+              <TabsTrigger value="file-input" onClick={resetStateVariables}>
+                Upload PDF
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="text-input">
-              <div className="flex flex-col gap-2 items-center my-4 z-10 relative">
-                <Textarea
-                  placeholder="Insert your text here..."
-                  value={inputText}
-                  onChange={handleInputChange}
-                />
-                <Button className="max-w-fit " onClick={handleClick}>
-                  Summarize Text
-                </Button>
+              <Textarea
+                placeholder="Insert your text here..."
+                value={inputText}
+                onChange={handleInputChange}
+                className="mt-4 text-gray-600 text-sm"
+              />
+              <Button
+                className="max-w-fit mt-4"
+                onClick={() => handleClick(inputText)}
+              >
+                Summarize Text
+              </Button>
 
-                {showAlert && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                      Please enter at least 15 words to summarize.
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </div>
+              {showAlert && (
+                <Alert variant="destructive" className="mt-4 max-w-fit">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    Please enter at least 15 words to summarize.
+                  </AlertDescription>
+                </Alert>
+              )}
 
               {isFetching && (
-                <div className="max-w-60 mx-auto my-4 flex justify-center z-10 relative">
+                <div className="max-w-60 mx-auto mt-4 flex justify-center">
                   <Progress value={progress} />
                 </div>
               )}
 
               {outputText && (
-                <div className="bg-gray-100 rounded-md p-4 mx-4 mb-10 z-10 relative">
+                <div className="bg-gray-100 rounded-md p-4 mt-4">
                   <h2 className="text-lg font-bold mb-2 text-gray-600 ">
                     Summary:
                   </h2>
-                  <div className="border border-gray-600 p-4">
-                    <p className="text-gray-800">{outputText}</p>
-                  </div>
+                  <p className="text-gray-600 text-sm">{outputText}</p>
                 </div>
               )}
             </TabsContent>
 
-            <TabsContent
-              className="text-lg font-bold mb-2 text-indigo-600 relative"
-              value="file-input"
-            >
-              <div className="relative md:hidden">
-                <Input id="picture" type="file" className="left-0 z-10" />
+            <TabsContent value="file-input">
+              <Input
+                type="file"
+                className="max-w-fit mt-4"
+                accept="application/pdf"
+                onChange={extractText}
+              />
+              {/* Render the extracted PDF text */}
+              <div className="bg-gray-100 rounded-md p-4 mt-4">
+                <h2 className="text-lg font-bold mb-2 text-gray-600 ">
+                  Extracted PDF Text:
+                </h2>
+                <p className="text-gray-600 text-sm">{pdfText}</p>
               </div>
-              <div className="hidden md:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <Input id="picture" type="file" />
-              </div>
-              <div className="absolute inset-0 bg-gray-300 opacity-50 cursor-not-allowed rounded-md z-0"></div>
+              <Button
+                className="max-w-fit mt-4"
+                onClick={() => handleClick(pdfText)}
+              >
+                Summarize PDF Text
+              </Button>
+
+              {showAlert && (
+                <Alert variant="destructive" className="mt-4 max-w-fit">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    Please enter at least 15 words to summarize.
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {isFetching && (
+                <div className="max-w-60 mx-auto mt-4 flex justify-center">
+                  <Progress value={progress} />
+                </div>
+              )}
+
+              {outputText && (
+                <div className="bg-gray-100 rounded-md p-4 mt-4">
+                  <h2 className="text-lg font-bold mb-2 text-gray-600 ">
+                    Summary:
+                  </h2>
+                  <p className="text-gray-600 text-sm">{outputText}</p>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

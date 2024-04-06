@@ -156,22 +156,25 @@ function App() {
             <TabsContent value="file-input">
               <Input
                 type="file"
-                className="max-w-fit mt-4"
+                className="sm:max-w-fit mt-4"
                 accept="application/pdf"
                 onChange={extractText}
               />
               {/* Render the extracted PDF text */}
-              <div className="bg-gray-100 rounded-md p-4 mt-4">
-                <h2 className="text-lg font-bold mb-2 text-gray-600 ">
-                  Extracted PDF Text:
-                </h2>
-                <p className="text-gray-600 text-sm">{pdfText}</p>
-              </div>
+              {pdfText && (
+                <div className="bg-gray-100 rounded-md p-4 mt-4">
+                  <h2 className="text-lg font-bold mb-2 text-gray-600 ">
+                    Extracted PDF Text:
+                  </h2>
+                  <p className="text-gray-600 text-sm">{pdfText}</p>
+                </div>
+              )}
+
               <Button
                 className="max-w-fit mt-4"
                 onClick={() => handleClick(pdfText)}
               >
-                Summarize PDF Text
+                Summarize PDF
               </Button>
 
               {showAlert && (
@@ -179,7 +182,7 @@ function App() {
                   <AlertCircle className="h-4 w-4" />
                   <AlertTitle>Error</AlertTitle>
                   <AlertDescription>
-                    Please enter at least 15 words to summarize.
+                    Please upload a PDF to summarize.
                   </AlertDescription>
                 </Alert>
               )}

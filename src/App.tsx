@@ -13,6 +13,7 @@ import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "./components/ui/ModeToggle";
 import { TypewriterEffectSmooth } from "./components/ui/typewriter-effect";
 
+
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
           </div>
         </div>
         <div className="flex justify-center items-center mt-4">
-          <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600">
+          <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600 ">
             Get Summary
           </h1>
         </div>
@@ -81,7 +82,6 @@ function App() {
             ]}
           />
         </div>
-
         <div className="mt-7">
           <Tabs defaultValue="text-input" className="">
             <TabsList>

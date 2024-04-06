@@ -68,12 +68,12 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center mt-4">
+        <div className="flex justify-center items-center m-4">
           <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600">
             Get Summary
           </h1>
         </div>
-        <div className="flex justify-center items-center mt-4">
+        <div className="flex justify-center items-center m-4">
           <TypewriterEffectSmooth
             words={[
               { text: "Insert Text.", className: "text-gray-600" },
@@ -82,14 +82,14 @@ function App() {
           />
         </div>
 
-        <div className="mt-7">
-          <Tabs defaultValue="text-input" className="">
+        <div className="m-4">
+          <Tabs defaultValue="text-input">
             <TabsList>
               <TabsTrigger value="text-input">Input Text</TabsTrigger>
               <TabsTrigger value="file-input">Upload File</TabsTrigger>
             </TabsList>
             <TabsContent value="text-input">
-              <div className="flex flex-col gap-2 items-center m-4 z-10 relative">
+              <div className="flex flex-col gap-2 items-center my-4 z-10 relative">
                 <Textarea
                   placeholder="Insert your text here..."
                   value={inputText}

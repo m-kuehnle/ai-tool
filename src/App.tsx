@@ -1,4 +1,3 @@
-//IMPORTS
 import React, { useState } from "react";
 import "./App.css";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,11 +11,9 @@ import { fetchOctoAI, countWords } from "./api";
 import { Input } from "@/components/ui/input";
 import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "./components/ui/ModeToggle";
+import { TypewriterEffectSmooth } from "./components/ui/typewriter-effect";
 
-//API KEY
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
-
-//FUNKTIONEN
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -61,24 +58,28 @@ function App() {
         <div className="flex justify-between items-center my-10 mx-4 z-10 relative">
           <div className="flex flex-row items-center">
             <img src={icon} alt="icon" className="w-12 h-12 mr-2" />
-
             <h1 className="text-2xl font-semibold text-gray-600 tracking-wide dark:text-gray-50">
               AI-Summarizer.
             </h1>
           </div>
-
           <div className="flex items-center justify-center">
             <div className="flex items-center">
               <ModeToggle />
             </div>
           </div>
         </div>
-
-        <div className="md:text-6xl mb-10 text-4xl font-bold leading-tight text-center z-10 relative">
-          <span className="text-gray-600 dark:text-gray-50">Insert Text. </span>
-          <span className="text-gray-600 dark:text-gray-50">Insert File.</span>
-          <br />
-          <span className="text-indigo-600">Get Summary.</span>
+        <div className="flex justify-center items-center mt-4">
+          <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600">
+            Get Summary
+          </h1>
+        </div>
+        <div className="flex justify-center items-center mt-4">
+          <TypewriterEffectSmooth
+            words={[
+              { text: "Insert Text.", className: "text-gray-600" },
+              { text: "Insert File.", className: "text-gray-600" },
+            ]}
+          />
         </div>
 
         <div className="mt-7">

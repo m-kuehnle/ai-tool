@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./App.css";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "./components/ui/textarea";
 import { Progress } from "./components/ui/progress";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
 import icon from "./assets/favicon.ico";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api";
-import { Input } from "@/components/ui/input";
+import { Input } from "./components/ui/input";
 import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "./components/ui/ModeToggle";
 import { TypewriterEffectSmooth } from "./components/ui/typewriter-effect";
+import Tesseract from "tesseract.js";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
@@ -25,7 +26,10 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [pdfText, setPdfText] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [summaryText, setSummaryText] = useState(""); // Zustandsvariable für den zusammengefassten Text
   const [, setSelectedTab] = useState("text-input");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null); // Zustandsvariable für das hochgeladene Bild
 
   const resetStateVariables = () => {
     setInputText("");
@@ -34,9 +38,12 @@ function App() {
     setProgress(0);
     setShowAlert(false);
     setPdfText("");
+    setUploadedImageUrl("");
+    setSummaryText(""); // Zurücksetzen der zusammengefassten Textvariable
+    setUploadedFile(null); // Zurücksetzen der hochgeladenen Datei
   };
 
-  const extractText = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const extractText = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
       console.error("No file selected");
@@ -53,13 +60,19 @@ function App() {
     try {
       setIsFetching(true);
 
-      if (countWords(text) < 15) {
-        setShowAlert(true);
-        return;
-      }
+      if (text && text.trim() !== "") {
+        // Überprüfen, ob der Text nicht leer ist
+        let summaryText = text;
 
-      const response = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
-      setOutputText(response);
+        if (countWords(text) >= 15) {
+          summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
+        }
+
+        setOutputText(summaryText);
+        setSummaryText(summaryText); // Aktualisiere die zusammengefasste Textvariable
+      } else {
+        setShowAlert(true); // Zeige eine Warnung an, wenn kein Text eingegeben wurde
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
@@ -68,11 +81,43 @@ function App() {
     }
   };
 
-  const handleInputChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setInputText(e.target.value);
-    setShowAlert(false);
+  const handleImageUpload = async () => {
+    // Entfernen Sie den Event-Parameter
+    if (!uploadedFile) {
+      // Überprüfen, ob eine Datei hochgeladen wurde
+      console.error("No file uploaded");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (e: ProgressEvent<FileReader>) => {
+      const target = e.target as FileReader;
+      if (target && target.result) {
+        setUploadedImageUrl(target.result as string);
+        const extractedText = await extractTextFromImage(uploadedFile); // Verwenden Sie die hochgeladene Datei
+        setSummaryText(extractedText); // Set the summary text when image is uploaded
+      }
+    };
+    reader.readAsDataURL(uploadedFile); // Verwenden Sie die hochgeladene Datei
+  };
+
+  const extractTextFromImage = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        if (event.target && event.target.result) {
+          const dataUrl = event.target.result as string;
+          const {
+            data: { text },
+          } = await Tesseract.recognize(dataUrl, "eng");
+          resolve(text);
+        } else {
+          reject(new Error("Failed to read image file"));
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleTabChange = (tabValue: string) => {
@@ -106,6 +151,7 @@ function App() {
             words={[
               { text: "Insert Text.", className: "text-gray-600" },
               { text: "Insert File.", className: "text-gray-600" },
+              { text: "Insert Image.", className: "text-gray-600" },
             ]}
           />
         </div>
@@ -113,13 +159,22 @@ function App() {
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
-              <TabsTrigger value="text-input" onClick={() => handleTabChange("text-input")}>
+              <TabsTrigger
+                value="text-input"
+                onClick={() => handleTabChange("text-input")}
+              >
                 Input Text
               </TabsTrigger>
-              <TabsTrigger value="file-input" onClick={() => handleTabChange("file-input")}>
+              <TabsTrigger
+                value="file-input"
+                onClick={() => handleTabChange("file-input")}
+              >
                 Upload PDF
               </TabsTrigger>
-              <TabsTrigger value="image-input" onClick={() => handleTabChange("image-input")}>
+              <TabsTrigger
+                value="image-input"
+                onClick={() => handleTabChange("image-input")}
+              >
                 Upload Image
               </TabsTrigger>
             </TabsList>
@@ -127,7 +182,7 @@ function App() {
               <Textarea
                 placeholder="Insert your text here..."
                 value={inputText}
-                onChange={handleInputChange}
+                onChange={(e) => setInputText(e.target.value)}
                 className="mt-4 text-gray-600 text-sm"
               />
               <Button
@@ -192,7 +247,6 @@ function App() {
                   <AlertTitle>Error</AlertTitle>
                   <AlertDescription>
                     Please upload a PDF to summarize.
-                    
                   </AlertDescription>
                 </Alert>
               )}
@@ -214,13 +268,60 @@ function App() {
             </TabsContent>
 
             <TabsContent value="image-input">
-              <div className="text-center mt-4 text-indigo-600 font-bold text-4xl">
-                Coming Soon.
+              <Input
+                type="file"
+                className="sm:max-w-fit mt-4"
+                accept="image/*"
+                capture="environment"
+                onChange={(e) =>
+                  setUploadedFile(e.target.files ? e.target.files[0] : null)
+                }
+              />
+              {uploadedImageUrl && (
+                <div className="mt-2 relative">
+                  <h2 className="absolute top-0 left-1/2 transform -translate-x-1/2 -top-9 text-xl text-indigo-600 font-bold text-3xl">
+                    Your Image:
+                  </h2>
+                  <img
+                    src={uploadedImageUrl}
+                    alt="Uploaded Image"
+                    style={{ maxWidth: "100%" }}
+                  />
+                </div>
+              )}
+
+              <Button className="max-w-fit mt-4" onClick={handleImageUpload}>
+                Summarize Image
+              </Button>
+
+              <div>
+                <br></br>
+              <p>We are working hard to make this tool better.Coming Soon.</p>
               </div>
-              <div className="text-center mt-4" >
-                We are working hard to bring you more Tools. 
-              </div>
-              
+
+              {/* Anzeige des zusammengefassten Textes */}
+
+              {summaryText && summaryText.trim() === "" && (
+                <div className="mt-4">
+                  <Alert variant="destructive" className="max-w-fit">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                      Please upload an image with text to summarize.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+
+              {/* Anzeige des zusammengefassten Textes */}
+              {summaryText && summaryText.trim() !== "" && (
+                <div className="bg-gray-100 rounded-md p-4 mt-4">
+                  <h2 className="text-lg font-bold mb-2 text-gray-600 ">
+                    Summary:
+                  </h2>
+                  <p className="text-gray-600 text-sm">{summaryText}</p>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

@@ -279,6 +279,9 @@ function App() {
               />
               {uploadedImageUrl && (
                 <div className="mt-2 relative">
+                  <h2 className="absolute top-0 left-1/2 transform -translate-x-1/2 -top-9 text-xl text-indigo-600 font-bold text-3xl">
+                    Your Image:
+                  </h2>
                   <img
                     src={uploadedImageUrl}
                     alt="Uploaded Image"

@@ -225,15 +225,6 @@ function App() {
                 accept="application/pdf"
                 onChange={extractText}
               />
-              {pdfText && (
-                <div className="bg-gray-100 rounded-md p-4 mt-4">
-                  <h2 className="text-lg font-bold mb-2 text-gray-600 ">
-                    Extracted PDF Text:
-                  </h2>
-                  <p className="text-gray-600 text-sm">{pdfText}</p>
-                </div>
-              )}
-
               <Button
                 className="max-w-fit mt-4"
                 onClick={() => handleClick(pdfText)}
@@ -340,7 +331,7 @@ function App() {
         </div>
       </ThemeProvider>
     </>
-  );
+  ); 
 }
 
 export default App;

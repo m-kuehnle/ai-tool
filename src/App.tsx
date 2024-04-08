@@ -30,7 +30,6 @@ function App() {
   const [pdfText, setPdfText] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [summaryText, setSummaryText] = useState(""); // Zustandsvariable für den zusammengefassten Text
-  const [, setSelectedTab] = useState("text-input");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null); // Zustandsvariable für das hochgeladene Bild
 
   const resetStateVariables = () => {
@@ -122,11 +121,6 @@ function App() {
     });
   };
 
-  const handleTabChange = (tabValue: string) => {
-    setSelectedTab(tabValue);
-    resetStateVariables();
-  };
-
   return (
     <>
       <ThemeProvider attribute="class">
@@ -136,19 +130,19 @@ function App() {
             <TabsList>
               <TabsTrigger
                 value="text-input"
-                onClick={() => handleTabChange("text-input")}
+                onClick={() => resetStateVariables()}
               >
                 Input Text
               </TabsTrigger>
               <TabsTrigger
                 value="file-input"
-                onClick={() => handleTabChange("file-input")}
+                onClick={() => resetStateVariables()}
               >
                 Upload PDF
               </TabsTrigger>
               <TabsTrigger
                 value="image-input"
-                onClick={() => handleTabChange("image-input")}
+                onClick={() => resetStateVariables()}
               >
                 Upload Image
               </TabsTrigger>

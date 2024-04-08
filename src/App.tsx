@@ -5,17 +5,16 @@ import { Progress } from "./components/ui/progress";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
-import icon from "./assets/favicon.ico";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api";
 import { Input } from "./components/ui/input";
 import { ThemeProvider } from "next-themes";
-import { ModeToggle } from "./components/ui/ModeToggle";
-import { TypewriterEffectSmooth } from "./components/ui/typewriter-effect";
+
 import Tesseract from "tesseract.js";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
+import Header from "./sections/header";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -128,34 +127,7 @@ function App() {
   return (
     <>
       <ThemeProvider attribute="class">
-        <div className="flex justify-between items-center my-10 mx-4 z-10 relative">
-          <div className="flex flex-row items-center">
-            <img src={icon} alt="icon" className="w-12 h-12 mr-2" />
-            <h1 className="text-2xl font-semibold text-gray-600 tracking-wide dark:text-gray-50">
-              AI-Summarizer.
-            </h1>
-          </div>
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
-              <ModeToggle />
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center mx-4">
-          <h1 className="text-4xl sm:text-6xl font-bold text-indigo-600">
-            Get Summary.
-          </h1>
-        </div>
-        <div className="flex justify-center items-center mx-4">
-          <TypewriterEffectSmooth
-            words={[
-              { text: "Insert Text.", className: "text-gray-600" },
-              { text: "Insert File.", className: "text-gray-600" },
-              { text: "Insert Image.", className: "text-gray-600" },
-            ]}
-          />
-        </div>
-
+        <Header />
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
@@ -285,11 +257,6 @@ function App() {
                 Summarize Image
               </Button>
 
-              <div>
-                <br></br>
-              <p>We are working hard to make this tool better.Coming Soon.</p>
-              </div>
-
               {/* Anzeige des zusammengefassten Textes */}
 
               {summaryText && summaryText.trim() === "" && (
@@ -331,7 +298,7 @@ function App() {
         </div>
       </ThemeProvider>
     </>
-  ); 
+  );
 }
 
 export default App;

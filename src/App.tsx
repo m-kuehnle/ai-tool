@@ -2,8 +2,6 @@ import { ChangeEvent, useState } from "react";
 import "./App.css";
 import { Textarea } from "./components/ui/textarea";
 import { Progress } from "./components/ui/progress";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { fetchOctoAI, countWords } from "./api";
@@ -14,9 +12,13 @@ import Tesseract from "tesseract.js";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
+
+// Components
 import Header from "./sections/header";
 import Background from "./sections/background";
+import CustomAlert from "./sections/customAlert";
 
+// AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 function App() {
@@ -166,13 +168,7 @@ function App() {
               </Button>
 
               {showAlert && (
-                <Alert variant="destructive" className="mt-4 max-w-fit">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>
-                    Please enter at least 15 words to summarize.
-                  </AlertDescription>
-                </Alert>
+                <CustomAlert message="Please enter at least 15 words to summarize." />
               )}
 
               {isFetching && (
@@ -206,13 +202,7 @@ function App() {
               </Button>
 
               {showAlert && (
-                <Alert variant="destructive" className="mt-4 max-w-fit">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>
-                    Please upload a PDF to summarize.
-                  </AlertDescription>
-                </Alert>
+                <CustomAlert message="Please upload a PDF to summarize." />
               )}
 
               {isFetching && (
@@ -259,16 +249,9 @@ function App() {
               </Button>
 
               {/* Anzeige des zusammengefassten Textes */}
-
               {summaryText && summaryText.trim() === "" && (
                 <div className="mt-4">
-                  <Alert variant="destructive" className="max-w-fit">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                      Please upload an image with text to summarize.
-                    </AlertDescription>
-                  </Alert>
+                  <CustomAlert message="Please upload an image with text to summarize." />
                 </div>
               )}
 

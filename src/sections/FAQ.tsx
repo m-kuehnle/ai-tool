@@ -29,7 +29,7 @@ const FAQ = () => {
           Can I interact with the website in any language?
         </AccordionTrigger>
         <AccordionContent>
-          No, currently it is available in German and sometimes in English. We are working to offer many languages.
+          No, currently it is available in German and sometimes in English. If the text doesn't come out in the language in which the text is, put it in a translated version. We are working to offer many languages.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-4">
@@ -37,7 +37,7 @@ const FAQ = () => {
           Is there a word limit for text summarization?
         </AccordionTrigger>
         <AccordionContent>
-          There is no specific word limit, but summarization works best with texts containing at least 15 words.
+        Yes, there is a text limit of 10,000 words. The AI ​​also needs 15 words to summarize something
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-5">

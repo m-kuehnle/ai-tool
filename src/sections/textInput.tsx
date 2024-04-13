@@ -75,8 +75,8 @@ const TextInput = () => {
 
       {outputText && (
         <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-lg font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sm">{outputText}</p>
+          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
+          <p className="text-gray-600 text-sl">{outputText}</p>
         </div>
       )}
     </>

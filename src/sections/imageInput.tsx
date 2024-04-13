@@ -90,9 +90,6 @@ const ImageInput = () => {
       />
       {uploadedImageUrl && (
         <div className="mt-2 relative">
-          <h2 className="absolute top-0 left-1/2 transform -translate-x-1/2 text-indigo-600 font-bold text-3xl">
-            Your Image:
-          </h2>
           <img
             src={uploadedImageUrl}
             alt="Uploaded Image"
@@ -105,7 +102,7 @@ const ImageInput = () => {
         Summarize Image
       </Button>
 
-      {showAlert && <CustomAlert message="Please upload an Image to summarize" />}
+      {showAlert && <CustomAlert message="This Image contains no Text or was not found" />}
 
       {isFetching && (
         <div className="max-w-60 mx-auto mt-4 flex justify-center">
@@ -116,8 +113,8 @@ const ImageInput = () => {
       {/* Anzeige des zusammengefassten Textes */}
       {outputText && (
         <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-lg font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sm">{outputText}</p>
+          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
+          <p className="text-gray-600 text-sl">{outputText}</p>
         </div>
       )}
     </>

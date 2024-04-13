@@ -2,7 +2,7 @@ import "./App.css";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { ThemeProvider } from "next-themes";
 
-// Components
+// Sections
 import Header from "./sections/header";
 import TextInput from "./sections/textInput";
 import PdfInput from "./sections/pdfInput";
@@ -37,13 +37,13 @@ function App() {
             </TabsContent>
           </Tabs>
         </div>
-        <div className="mt-40">
-          <div className="font-bold text-indigo-600 text-3xl ">
-          <h2>FAQ</h2>
-          </div>
-         
-          <FAQ></FAQ>
+
+        {/* FAQ Section */}
+        <div className="sm:m-40 m-8">
+          <h2 className="mb-8 font-bold text-indigo-600 text-3xl">FAQ</h2>
+          <FAQ />
         </div>
+
         <Background />
       </ThemeProvider>
     </>

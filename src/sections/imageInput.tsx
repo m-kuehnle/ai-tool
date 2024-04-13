@@ -10,7 +10,6 @@ const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 const ImageInput = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-  const [summaryText, setSummaryText] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
@@ -54,7 +53,6 @@ const ImageInput = () => {
       if (target && target.result) {
         setUploadedImageUrl(target.result as string);
         const extractedText = await extractTextFromImage(uploadedFile); // Verwenden Sie die hochgeladene Datei
-        setSummaryText(extractedText); // Set the summary text when image is uploaded
         handleClick(extractedText);
       }
     };

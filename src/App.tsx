@@ -8,6 +8,7 @@ import { fetchOctoAI, countWords } from "./api";
 import { Input } from "./components/ui/input";
 import { ThemeProvider } from "next-themes";
 
+
 import Tesseract from "tesseract.js";
 
 // @ts-ignore
@@ -17,6 +18,7 @@ import pdfToText from "react-pdftotext";
 import Header from "./sections/header";
 import Background from "./sections/background";
 import CustomAlert from "./sections/customAlert";
+import FAQ from "./sections/FAQ";
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -124,6 +126,8 @@ function App() {
   return (
     <>
       <ThemeProvider attribute="class">
+        
+       
 
         <Header />
         
@@ -263,10 +267,17 @@ function App() {
             </TabsContent>
           </Tabs>
         </div>
+            
+  
+        <div className="">
+          <FAQ /> 
+        </div>
 
         <Background />
 
       </ThemeProvider>
+
+      
     </>
   );
 }

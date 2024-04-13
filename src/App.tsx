@@ -124,7 +124,9 @@ function App() {
   return (
     <>
       <ThemeProvider attribute="class">
+
         <Header />
+        
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
@@ -263,6 +265,7 @@ function App() {
         </div>
 
         <Background />
+
       </ThemeProvider>
     </>
   );

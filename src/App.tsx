@@ -44,6 +44,7 @@ function App() {
          
           <FAQ></FAQ>
         </div>
+
         <Background />
       </ThemeProvider>
     </>

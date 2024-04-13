@@ -3,9 +3,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import CustomAlert from "./customAlert";
 import { Progress } from "@/components/ui/progress";
-import { fetchOctoAI, countWords } from "../api";
+import { fetchOctoAI } from "../api"; // 'countWords' function is not needed here anymore
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
+
+// Diese Funktion wird von 'api.ts' importiert
+const countWords = (text: string) => {
+  return text.split(/\s+/).filter((word) => word !== "").length;
+};
 
 const TextInput = () => {
   const [inputText, setInputText] = useState("");
@@ -18,8 +23,16 @@ const TextInput = () => {
     try {
       setIsFetching(true);
 
+      // Setze den Alert zurück
+      setShowAlert(false);
+
       if (text && text.trim() !== "") {
-        // Überprüfen, ob der Text nicht leer ist
+        if (countWords(text) > 10000) {
+          // Wenn mehr als 10.000 Wörter eingegeben wurden, zeige einen Alert an
+          setShowAlert(true);
+          return;
+        }
+
         let summaryText = text;
 
         if (countWords(text) >= 15) {
@@ -51,7 +64,7 @@ const TextInput = () => {
       </Button>
 
       {showAlert && (
-        <CustomAlert message="Please enter at least 15 words to summarize." />
+        <CustomAlert message={countWords(inputText) > 10000 ? "You can only enter 10.000 words." : "Please enter at least 15 words to summarize."} />
       )}
 
       {isFetching && (

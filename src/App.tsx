@@ -40,7 +40,7 @@ function App() {
 
         {/* FAQ Section */}
         <div className="sm:m-40 m-8">
-          <h2 className="mb-8 font-bold text-indigo-600 text-3xl">FAQ</h2>
+          <h2 className="mb-4 font-bold text-indigo-600 text-3xl mt-[260px] sm:mt-[200px]">FAQ</h2>
           <FAQ />
         </div>
 

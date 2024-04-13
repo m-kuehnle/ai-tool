@@ -39,14 +39,13 @@ const ImageInput = () => {
       setIsFetching(false);
     }
   };
-
   const handleImageUpload = async () => {
     if (!uploadedFile) {
       // Überprüfen, ob eine Datei hochgeladen wurde
-      console.error("No file uploaded");
+      setShowAlert(true);
       return;
     }
-
+  
     const reader = new FileReader();
     reader.onload = async (e: ProgressEvent<FileReader>) => {
       const target = e.target as FileReader;
@@ -106,7 +105,7 @@ const ImageInput = () => {
         Summarize Image
       </Button>
 
-      {showAlert && <CustomAlert message="Please upload a PDF to summarize." />}
+      {showAlert && <CustomAlert message="Please upload an Image to summarize" />}
 
       {isFetching && (
         <div className="max-w-60 mx-auto mt-4 flex justify-center">

@@ -48,7 +48,7 @@ const TextInput = ({ example }: TextInputProps) => {
     <>
       <div className="mt-8 hidden sm:block">
         <div>
-        <h3 className="font-bold text-indigo-600  sm:ml-[530px] sm:mt-[-20px]">Application examples</h3>
+        <h3 className="font-bold text-indigo-600  ml-[530px] mt-[-20px]">Application examples</h3>
           <BentoGrid className="max-w-4xl mx-auto">
             {items.map((item, i) => (
               <div key={i}>

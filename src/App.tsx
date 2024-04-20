@@ -19,8 +19,6 @@ function App() {
         
         <div className="m-4">
        
-
-         
           <Tabs defaultValue="text-input">
             <TabsList>
               {inputOptions.map((value) => (

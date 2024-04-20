@@ -26,29 +26,17 @@ const TextInput = ({ example }: TextInputProps) => {
   const [summary] = useState("");
 
   const handleClick = async (text: string) => {
+    if (countWords(text) > 10000 || countWords(text) < 15) {
+      setShowAlert(true);
+      setOutputText("");
+      return;
+    }
     try {
       setIsFetching(true);
-
-      // Setze den Alert zurück
       setShowAlert(false);
 
-      if (text && text.trim() !== "") {
-        if (countWords(text) > 10000) {
-          // Wenn mehr als 10.000 Wörter eingegeben wurden, zeige einen Alert an
-          setShowAlert(true);
-          return;
-        }
-
-        let summaryText = text;
-
-        if (countWords(text) >= 15) {
-          summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
-        }
-
-        setOutputText(summaryText);
-      } else {
-        setShowAlert(true); // Zeige eine Warnung an, wenn kein Text eingegeben wurde
-      }
+      let summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
+      setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
@@ -94,7 +82,7 @@ const TextInput = ({ example }: TextInputProps) => {
       {showAlert && (
         <CustomAlert
           message={
-            countWords(inputText || "") > 10000
+            countWords(inputText ?? "") > 10000
               ? "You can only enter 10.000 words."
               : "Please enter at least 15 words to summarize."
           }

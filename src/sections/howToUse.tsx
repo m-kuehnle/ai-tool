@@ -53,7 +53,7 @@ export function CarouselDApiDemo() {
               <Card className="hover:shadow-lg">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {/* Hier wird die Klasse auf das span-Element angewendet */}
-                  <span className={`text-indigo-600 text-4xl font-bold mt-[-230px]`}>{content}</span>
+                  <span className={`text-gray-600 text-4xl font-bold mt-[-230px]`}>{content}</span>
                 </CardContent>
                 {/* Unterschiedlicher Text für jede Karte */}
                 <div className="px-10">

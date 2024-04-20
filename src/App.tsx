@@ -7,7 +7,6 @@ import Header from "./sections/header";
 import TextInput from "./sections/textInput";
 import PdfInput from "./sections/pdfInput";
 import ImageInput from "./sections/imageInput";
-import Background from "./sections/background";
 import FAQ from "./sections/FAQ";
 import CarouselDApiDemo from "./sections/howToUse"
 

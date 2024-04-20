@@ -45,7 +45,7 @@ const ImageInput = () => {
       setShowAlert(true);
       return;
     }
-  
+
     const reader = new FileReader();
     reader.onload = async (e: ProgressEvent<FileReader>) => {
       const target = e.target as FileReader;
@@ -98,11 +98,16 @@ const ImageInput = () => {
         </div>
       )}
 
-      <Button className="max-w-fit mt-4" onClick={handleImageUpload}>
+      <Button
+        className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+        onClick={handleImageUpload}
+      >
         Summarize Image
       </Button>
 
-      {showAlert && <CustomAlert message="This Image contains no Text or was not found" />}
+      {showAlert && (
+        <CustomAlert message="This Image contains no Text or was not found" />
+      )}
 
       {isFetching && (
         <div className="max-w-60 mx-auto mt-4 flex justify-center">

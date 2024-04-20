@@ -1,6 +1,6 @@
-# AI Tool App
+# AI Summarizer
 
-This app provides useful AI tools. Right now, it can summarize text.
+This application empowers users to summarize text from a variety of input sources. Currently, it supports text, PDF, and image inputs.
 
 ## Tech Stack
 

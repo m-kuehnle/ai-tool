@@ -16,10 +16,8 @@ function App() {
     <>
       <ThemeProvider attribute="class">
         <Header />
-        
-        
+
         <div className="m-4">
-       
           <Tabs defaultValue="text-input">
             <TabsList>
               {inputOptions.map((value) => (
@@ -30,10 +28,8 @@ function App() {
                 </TabsTrigger>
               ))}
             </TabsList>
-            
 
             {inputOptions.map((value) => (
-               
               <TabsContent
                 key={value}
                 value={value}
@@ -45,7 +41,6 @@ function App() {
               </TabsContent>
             ))}
           </Tabs>
-          
         </div>
 
         <div className="sm:m-40 m-8">

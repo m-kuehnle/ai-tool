@@ -4,7 +4,7 @@ import CustomAlert from "./customAlert";
 import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
-import { items } from "@/utils/constants";
+import { text_examples } from "@/utils/constants";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 import { countWords } from "../lib/utils";
 
@@ -42,20 +42,20 @@ const TextInput = ({ example }: TextInputProps) => {
     }
   };
 
-
-
   return (
     <>
       <div className="mt-8 hidden sm:block">
         <div>
-        <h3 className="font-bold text-indigo-600  ml-[530px] mt-[-20px]">Application examples</h3>
+          <h3 className="font-bold text-indigo-600  ml-[530px] mt-[-20px]">
+            Application examples
+          </h3>
           <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
+            {text_examples.map((item, i) => (
               <div key={i}>
                 <BentoGridItem
                   title={item.title}
                   description={item.description}
-                  header={item.header}
+                  header={<img src={item.header} alt={item.title} className="w-full h-32 object-cover rounded-xl"/>}
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   onClick={() => setInputText(item.example_text)}
                 />
@@ -131,7 +131,7 @@ const TextInput = ({ example }: TextInputProps) => {
       <div className="mt-8 block sm:hidden">
         <div>
           <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
+            {text_examples.map((item, i) => (
               <div key={i}>
                 <BentoGridItem
                   title={item.title}

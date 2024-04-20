@@ -6,11 +6,12 @@ import Tesseract from "tesseract.js";
 import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { image_examples } from "@/utils/constants";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 const ImageInput = () => {
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
@@ -39,16 +40,15 @@ const ImageInput = () => {
 
   const handleImageUpload = async () => {
     if (!uploadedFile) {
-      // Überprüfen, ob eine Datei hochgeladen wurde
       setShowAlert(true);
       return;
     }
+    setIsFetching(true);
 
     const reader = new FileReader();
     reader.onload = async (e: ProgressEvent<FileReader>) => {
       const target = e.target as FileReader;
       if (target && target.result) {
-        setUploadedImageUrl(target.result as string);
         const extractedText = await extractTextFromImage(uploadedFile);
         handleClick(extractedText);
       }
@@ -75,8 +75,46 @@ const ImageInput = () => {
     });
   };
 
+  const convertUrlToFile = async (url: string): Promise<File | null> => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new File([blob], "image.jpg");
+    } catch (error) {
+      console.error("Error converting URL to file:", error);
+      return null;
+    }
+  };
+
   return (
     <>
+      <div className="mt-8 hidden sm:block">
+        <div>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {image_examples.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                  onClick={async () => {
+                    const file = await convertUrlToFile(item.header);
+                    setUploadedFile(file);
+                  }}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+        </div>
+      </div>
+
       <Input
         type="file"
         className="sm:max-w-fit mt-4"
@@ -86,12 +124,12 @@ const ImageInput = () => {
           setUploadedFile(e.target.files ? e.target.files[0] : null)
         }
       />
-      {uploadedImageUrl && (
+      {uploadedFile && (
         <div className="mt-2 relative">
           <img
-            src={uploadedImageUrl}
+            src={URL.createObjectURL(uploadedFile)}
             alt="Uploaded Image"
-            style={{ maxWidth: "100%" }}
+            style={{ maxWidth: "60%" }}
           />
         </div>
       )}

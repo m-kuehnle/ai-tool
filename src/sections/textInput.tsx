@@ -19,7 +19,6 @@ const TextInput = ({ example }: TextInputProps) => {
   const [showAlert, setShowAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
-  const [summary] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
   const handleClick = async (text: string) => {
@@ -46,8 +45,8 @@ const TextInput = ({ example }: TextInputProps) => {
     <>
       <div className="mt-8 hidden sm:block">
         <div>
-          <h3 className="font-bold text-indigo-600  ml-[530px] mt-[-20px]">
-            Application examples
+          <h3 className="font-bold text-indigo-600 text-center mb-4">
+            Try some examples
           </h3>
           <BentoGrid className="max-w-4xl mx-auto">
             {text_examples.map((item, i) => (
@@ -55,14 +54,19 @@ const TextInput = ({ example }: TextInputProps) => {
                 <BentoGridItem
                   title={item.title}
                   description={item.description}
-                  header={<img src={item.header} alt={item.title} className="w-full h-32 object-cover rounded-xl"/>}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   onClick={() => setInputText(item.example_text)}
                 />
               </div>
             ))}
           </BentoGrid>
-          <div>{summary}</div>
         </div>
       </div>
 
@@ -98,7 +102,7 @@ const TextInput = ({ example }: TextInputProps) => {
       )}
 
       {outputText && (
-        <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
+        <div className="bg-white dark:bg-background rounded-md p-4 mt-4">
           <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
             Summary:
           </h2>
@@ -130,20 +134,28 @@ const TextInput = ({ example }: TextInputProps) => {
 
       <div className="mt-8 block sm:hidden">
         <div>
+          <h3 className="font-bold text-indigo-600 text-center mb-4">
+            Try some examples
+          </h3>
           <BentoGrid className="max-w-4xl mx-auto">
             {text_examples.map((item, i) => (
               <div key={i}>
                 <BentoGridItem
                   title={item.title}
                   description={item.description}
-                  header={item.header}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   onClick={() => setInputText(item.example_text)}
                 />
               </div>
             ))}
           </BentoGrid>
-          <div>{summary}</div>
         </div>
       </div>
     </>

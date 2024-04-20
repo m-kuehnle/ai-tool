@@ -16,6 +16,7 @@ function App() {
       <ThemeProvider attribute="class">
         {/* Header */}
         <Header />
+        
 
         {/* Tabs */}
         <div className="m-4">
@@ -53,9 +54,11 @@ function App() {
         
         <h3 className="mb-4 font-bold text-indigo-600 text-3xl mt-[100px] ml-[50px]  flex justify-center sm:mt-[150px] underline">How do I use the tool correctly?</h3>
         <div className="mt-[70px] mb-[200px] flex justify-center ">
-          
           <CarouselDApiDemo />
           </div>
+
+
+     
         
        </ThemeProvider>
         

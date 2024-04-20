@@ -1,18 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import CustomAlert from "./customAlert";
-import { Progress } from "@/components/ui/progress";
 import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { items } from "@/utils/constants";
-import { Clipboard, ClipboardCheckIcon } from "lucide-react";
+import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
+import { countWords } from "../lib/utils";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
-
-const countWords = (text: string) => {
-  return text.split(/\s+/).filter((word) => word !== "").length;
-};
 
 interface TextInputProps {
   example?: string;
@@ -23,7 +19,6 @@ const TextInput = ({ example }: TextInputProps) => {
   const [showAlert, setShowAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
-  const [progress, setProgress] = useState(0);
   const [summary] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
@@ -37,7 +32,7 @@ const TextInput = ({ example }: TextInputProps) => {
       setIsFetching(true);
       setShowAlert(false);
 
-      let summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -47,10 +42,7 @@ const TextInput = ({ example }: TextInputProps) => {
     }
   };
 
-  function copyToClipboard(outputText: string) {
-    navigator.clipboard.writeText(outputText);
-    setCopyClipboardSuccess(true);
-  }
+
 
   return (
     <>
@@ -79,11 +71,19 @@ const TextInput = ({ example }: TextInputProps) => {
         onChange={(e) => setInputText(e.target.value)}
         className="mt-4 text-gray-600 text-sm"
       />
+
       <Button
+        disabled={isFetching}
         className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
         onClick={() => handleClick(inputText || "")}
       >
-        {isFetching ? "Summarizing..." : "Summarize Text"}
+        {isFetching ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
+          </>
+        ) : (
+          "Summarize Text"
+        )}
       </Button>
 
       {showAlert && (
@@ -94,12 +94,6 @@ const TextInput = ({ example }: TextInputProps) => {
               : "Please enter at least 15 words to summarize."
           }
         />
-      )}
-
-      {isFetching && (
-        <div className="max-w-60 mx-auto mt-4 flex justify-center">
-          <Progress value={progress} />
-        </div>
       )}
 
       {outputText && (
@@ -113,7 +107,8 @@ const TextInput = ({ example }: TextInputProps) => {
           <Button
             variant="secondary"
             onClick={() => {
-              copyToClipboard(outputText);
+              navigator.clipboard.writeText(outputText);
+              setCopyClipboardSuccess(true);
             }}
           >
             {!copyClipboardSuccess && (

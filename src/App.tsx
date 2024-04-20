@@ -40,14 +40,14 @@ function App() {
         </div>
 
         <div className="mt-[100px]">
-          <h3 className="font-bold text-3xl text-indigo-600 ml-[150px] underline sm:mt-[-60px]">Examples</h3>
+          <h3 className="font-bold text-3xl text-indigo-600 ml-[150px] underline sm:mt-[-60px]">
+            Examples
+          </h3>
 
           <div className="ml-[px] sm:ml-[-100px]">
             <BentoGridDemo />
           </div>
-          
         </div>
-
 
         {/* FAQ Section */}
         <div className="sm:m-40 m-8">
@@ -56,8 +56,6 @@ function App() {
           </h2>
           <FAQ />
         </div>
-
-
 
         <Background />
       </ThemeProvider>

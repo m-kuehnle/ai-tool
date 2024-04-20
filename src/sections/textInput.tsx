@@ -6,6 +6,7 @@ import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { items } from "@/utils/constants";
+import { Clipboard, ClipboardCheckIcon } from "lucide-react";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -24,31 +25,20 @@ const TextInput = ({ example }: TextInputProps) => {
   const [outputText, setOutputText] = useState("");
   const [progress, setProgress] = useState(0);
   const [summary] = useState("");
+  const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
   const handleClick = async (text: string) => {
+    if (countWords(text) > 10000 || countWords(text) < 15) {
+      setShowAlert(true);
+      setOutputText("");
+      return;
+    }
     try {
       setIsFetching(true);
-
-      // Setze den Alert zurück
       setShowAlert(false);
 
-      if (text && text.trim() !== "") {
-        if (countWords(text) > 10000) {
-          // Wenn mehr als 10.000 Wörter eingegeben wurden, zeige einen Alert an
-          setShowAlert(true);
-          return;
-        }
-
-        let summaryText = text;
-
-        if (countWords(text) >= 15) {
-          summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
-        }
-
-        setOutputText(summaryText);
-      } else {
-        setShowAlert(true); // Zeige eine Warnung an, wenn kein Text eingegeben wurde
-      }
+      let summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
+      setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
@@ -56,6 +46,11 @@ const TextInput = ({ example }: TextInputProps) => {
       setIsFetching(false);
     }
   };
+
+  function copyToClipboard(outputText: string) {
+    navigator.clipboard.writeText(outputText);
+    setCopyClipboardSuccess(true);
+  }
 
   return (
     <>
@@ -88,8 +83,54 @@ const TextInput = ({ example }: TextInputProps) => {
         className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
         onClick={() => handleClick(inputText || "")}
       >
-        Summarize Text
+        {isFetching ? "Summarizing..." : "Summarize Text"}
       </Button>
+
+      {showAlert && (
+        <CustomAlert
+          message={
+            countWords(inputText ?? "") > 10000
+              ? "You can only enter 10.000 words."
+              : "Please enter at least 15 words to summarize."
+          }
+        />
+      )}
+
+      {isFetching && (
+        <div className="max-w-60 mx-auto mt-4 flex justify-center">
+          <Progress value={progress} />
+        </div>
+      )}
+
+      {outputText && (
+        <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
+          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Summary:
+          </h2>
+          <p className="text-gray-600 text-sl dark:text-white my-4">
+            {outputText}
+          </p>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              copyToClipboard(outputText);
+            }}
+          >
+            {!copyClipboardSuccess && (
+              <>
+                <Clipboard className="mr-2 h-4 w-4" />
+                Copy to Clipboard
+              </>
+            )}
+            {copyClipboardSuccess && (
+              <>
+                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
+                Successfully Copied
+              </>
+            )}
+          </Button>
+        </div>
+      )}
 
       <div className="mt-8 block sm:hidden">
         <div>
@@ -109,29 +150,6 @@ const TextInput = ({ example }: TextInputProps) => {
           <div>{summary}</div>
         </div>
       </div>
-
-      {showAlert && (
-        <CustomAlert
-          message={
-            countWords(inputText || "") > 10000
-              ? "You can only enter 10.000 words."
-              : "Please enter at least 15 words to summarize."
-          }
-        />
-      )}
-
-      {isFetching && (
-        <div className="max-w-60 mx-auto mt-4 flex justify-center">
-          <Progress value={progress} />
-        </div>
-      )}
-
-      {outputText && (
-        <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sl">{outputText}</p>
-        </div>
-      )}
     </>
   );
 };

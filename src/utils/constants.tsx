@@ -54,29 +54,23 @@ export const items: Item[] = [
 
 export const faqData = [
   {
-    question:
-      "Will the website continue to be developed and will more features be added?",
-    answer:
-      "Yes, this website is still under development, and more exciting features will be added. Stay tuned!",
+    question: "Will the website continue to be developed and will more features be added?",
+    answer: "Absolutely! Our website is continually evolving, and we're committed to adding new features to enhance the user experience. Keep an eye out for exciting updates!",
   },
   {
-    question: "How does the summarization work, and are important data safe?",
-    answer:
-      "The website is based on the OCTO-AI API, and we do not have access to the files. OctoAI has access to them, so never summarize important data such as bank details here.",
+    question: "How does the summarization process work, and how secure is my data?",
+    answer: "Our website utilizes the OCTO-AI API for text summarization. Rest assured, we prioritize data security. While we do not retain access to your files, it's essential to refrain from uploading sensitive information such as bank details.",
   },
   {
-    question: "Can I interact with the website in any language?",
-    answer:
-      "No, currently it is available in German and sometimes in English. If the text doesn't come out in the language in which the text is, put it in a translated version. We are working to offer many languages.",
+    question: "Can I interact with the website in languages other than English and German?",
+    answer: "At present, our website supports primarily English and German languages. If your text is in another language, consider translating it before input. We're actively working to expand language support in the future.",
   },
   {
     question: "Is there a word limit for text summarization?",
-    answer:
-      "Yes, there is a text limit of 10,000 words. The AI ​​also needs 15 words to summarize something",
+    answer: "Yes, there is a maximum text limit of 10,000 words for summarization. Additionally, the AI requires at least 15 words to generate a meaningful summary.",
   },
   {
     question: "Can I summarize text from images?",
-    answer:
-      "Yes, you can upload images with text, and the application will extract and summarize the text.",
+    answer: "Absolutely! Our website supports text extraction and summarization from images. Simply upload the image containing the text, and our application will handle the rest.",
   },
 ];

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Tesseract from "tesseract.js";
 import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
-import { Loader2 } from "lucide-react";
+import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -15,6 +15,7 @@ const ImageInput = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
   const handleClick = async (text: string) => {
     if (countWords(text) > 10000 || countWords(text) < 15) {
@@ -48,11 +49,11 @@ const ImageInput = () => {
       const target = e.target as FileReader;
       if (target && target.result) {
         setUploadedImageUrl(target.result as string);
-        const extractedText = await extractTextFromImage(uploadedFile); 
+        const extractedText = await extractTextFromImage(uploadedFile);
         handleClick(extractedText);
       }
     };
-    reader.readAsDataURL(uploadedFile); 
+    reader.readAsDataURL(uploadedFile);
   };
 
   const extractTextFromImage = async (file: File): Promise<string> => {
@@ -115,9 +116,33 @@ const ImageInput = () => {
 
       {/* Anzeige des zusammengefassten Textes */}
       {outputText && (
-        <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sl">{outputText}</p>
+        <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
+          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Summary:
+          </h2>
+          <p className="text-gray-600 text-sl dark:text-white my-4">
+            {outputText}
+          </p>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              navigator.clipboard.writeText(outputText);
+              setCopyClipboardSuccess(true);
+            }}
+          >
+            {!copyClipboardSuccess && (
+              <>
+                <Clipboard className="mr-2 h-4 w-4" />
+                Copy to Clipboard
+              </>
+            )}
+            {copyClipboardSuccess && (
+              <>
+                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
+                Successfully Copied
+              </>
+            )}
+          </Button>
         </div>
       )}
     </>

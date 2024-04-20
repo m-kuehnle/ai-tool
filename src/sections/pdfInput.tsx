@@ -4,10 +4,10 @@ import CustomAlert from "./customAlert";
 import { ChangeEvent, useState } from "react";
 import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
+import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
-import { Loader2 } from "lucide-react";
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -17,6 +17,7 @@ const PdfInput = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [pdfText, setPdfText] = useState("");
+  const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
   const extractText = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -76,9 +77,33 @@ const PdfInput = () => {
       {showAlert && <CustomAlert message="Please upload a PDF to summarize." />}
 
       {outputText && (
-        <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sl">{outputText}</p>
+        <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
+          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Summary:
+          </h2>
+          <p className="text-gray-600 text-sl dark:text-white my-4">
+            {outputText}
+          </p>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              navigator.clipboard.writeText(outputText);
+              setCopyClipboardSuccess(true);
+            }}
+          >
+            {!copyClipboardSuccess && (
+              <>
+                <Clipboard className="mr-2 h-4 w-4" />
+                Copy to Clipboard
+              </>
+            )}
+            {copyClipboardSuccess && (
+              <>
+                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
+                Successfully Copied
+              </>
+            )}
+          </Button>
         </div>
       )}
     </>

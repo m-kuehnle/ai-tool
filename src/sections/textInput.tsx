@@ -42,10 +42,7 @@ const TextInput = ({ example }: TextInputProps) => {
     }
   };
 
-  function copyToClipboard(outputText: string) {
-    navigator.clipboard.writeText(outputText);
-    setCopyClipboardSuccess(true);
-  }
+
 
   return (
     <>
@@ -110,7 +107,8 @@ const TextInput = ({ example }: TextInputProps) => {
           <Button
             variant="secondary"
             onClick={() => {
-              copyToClipboard(outputText);
+              navigator.clipboard.writeText(outputText);
+              setCopyClipboardSuccess(true);
             }}
           >
             {!copyClipboardSuccess && (

@@ -15,7 +15,7 @@ export const fetchOctoAI = async (text: string, setProgress: (progress: number) 
       messages: [
         {
           role: "system",
-          content: `summarize the text as briefly as possible and that all important things are in the text in english ${text}`,
+          content: `provide a brief summary of the following text in english: ${text}`,
         },
       ],
       model: "mixtral-8x7b-instruct-fp16",

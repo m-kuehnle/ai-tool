@@ -6,7 +6,7 @@ import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { items } from "@/utils/constants";
-import { Clipboard, ClipboardCheckIcon } from "lucide-react";
+import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -79,11 +79,19 @@ const TextInput = ({ example }: TextInputProps) => {
         onChange={(e) => setInputText(e.target.value)}
         className="mt-4 text-gray-600 text-sm"
       />
+
       <Button
+        disabled={isFetching}
         className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
         onClick={() => handleClick(inputText || "")}
       >
-        {isFetching ? "Summarizing..." : "Summarize Text"}
+        {isFetching ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
+          </>
+        ) : (
+          "Summarize Text"
+        )}
       </Button>
 
       {showAlert && (
@@ -94,12 +102,6 @@ const TextInput = ({ example }: TextInputProps) => {
               : "Please enter at least 15 words to summarize."
           }
         />
-      )}
-
-      {isFetching && (
-        <div className="max-w-60 mx-auto mt-4 flex justify-center">
-          <Progress value={progress} />
-        </div>
       )}
 
       {outputText && (

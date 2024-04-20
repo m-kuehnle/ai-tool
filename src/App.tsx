@@ -9,6 +9,7 @@ import PdfInput from "./sections/pdfInput";
 import ImageInput from "./sections/imageInput";
 import Background from "./sections/background";
 import FAQ from "./sections/FAQ";
+import CarouselDApiDemo from "./sections/howToUse"
 
 function App() {
   return (
@@ -50,9 +51,21 @@ function App() {
           </h2>
           <FAQ />
         </div>
+        
+        <h3 className="mb-4 font-bold text-indigo-600 text-3xl mt-[100px] ml-[50px]  flex justify-center sm:mt-[150px] underline">How do I use the tool correctly?</h3>
+        <div className="mt-[70px] mb-[200px] flex justify-center ">
+          
+          <CarouselDApiDemo />
+          </div>
+        
+       </ThemeProvider>
+        
 
-        <Background />
-      </ThemeProvider>
+       
+
+      
+        
+          
     </>
   );
 }

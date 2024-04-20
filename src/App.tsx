@@ -21,20 +21,23 @@ function App() {
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
-              <TabsTrigger value="text-input">Input Text</TabsTrigger>
-              <TabsTrigger value="file-input">Upload PDF</TabsTrigger>
-              <TabsTrigger value="image-input">Upload Image</TabsTrigger>
+              <TabsTrigger value="text-input">Text</TabsTrigger>
+              <TabsTrigger value="file-input">PDF</TabsTrigger>
+              <TabsTrigger value="image-input">Image</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="text-input">
+            <TabsContent value="text-input" className="bg-muted p-4 rounded-lg">
               <TextInput />
             </TabsContent>
 
-            <TabsContent value="file-input">
+            <TabsContent value="file-input" className="bg-muted p-4 rounded-lg">
               <PdfInput />
             </TabsContent>
 
-            <TabsContent value="image-input">
+            <TabsContent
+              value="image-input"
+              className="bg-muted p-4 rounded-lg"
+            >
               <ImageInput />
             </TabsContent>
           </Tabs>

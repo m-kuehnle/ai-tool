@@ -85,7 +85,7 @@ const TextInput = ({ example }: TextInputProps) => {
         className="mt-4 text-gray-600 text-sm"
       />
       <Button
-        className="max-w-fit mt-4"
+        className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
         onClick={() => handleClick(inputText || "")}
       >
         Summarize Text

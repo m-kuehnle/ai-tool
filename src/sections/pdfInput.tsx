@@ -63,7 +63,10 @@ const PdfInput = () => {
         accept="application/pdf"
         onChange={extractText}
       />
-      <Button className="max-w-fit mt-4" onClick={() => handleClick(pdfText)}>
+      <Button
+        className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+        onClick={() => handleClick(pdfText)}
+      >
         Summarize PDF
       </Button>
 

@@ -9,14 +9,15 @@ import PdfInput from "./sections/pdfInput";
 import ImageInput from "./sections/imageInput";
 import Background from "./sections/background";
 import FAQ from "./sections/FAQ";
-import BentoGridDemo from "./sections/examples";
 
 function App() {
   return (
     <>
       <ThemeProvider attribute="class">
+        {/* Header */}
         <Header />
 
+        {/* Tabs */}
         <div className="m-4">
           <Tabs defaultValue="text-input">
             <TabsList>
@@ -39,16 +40,6 @@ function App() {
           </Tabs>
         </div>
 
-        <div className="mt-[100px]">
-          <h3 className="font-bold text-3xl text-indigo-600 ml-[150px] underline sm:mt-[-60px]">Examples</h3>
-
-          <div className="ml-[px] sm:ml-[-100px]">
-            <BentoGridDemo />
-          </div>
-          
-        </div>
-
-
         {/* FAQ Section */}
         <div className="sm:m-40 m-8">
           <h2 className="mb-4 font-bold text-indigo-600 text-3xl mt-[100px] sm:mt-[150px] underline">
@@ -56,8 +47,6 @@ function App() {
           </h2>
           <FAQ />
         </div>
-
-
 
         <Background />
       </ThemeProvider>

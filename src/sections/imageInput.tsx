@@ -3,35 +3,31 @@ import { Input } from "@/components/ui/input";
 import CustomAlert from "./customAlert";
 import { useState } from "react";
 import Tesseract from "tesseract.js";
-import { fetchOctoAI, countWords } from "../api";
-import { Progress } from "@/components/ui/progress";
+import { fetchOctoAI } from "../api";
+import { countWords } from "../lib/utils";
+import { Loader2 } from "lucide-react";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 const ImageInput = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [progress, setProgress] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
   const handleClick = async (text: string) => {
+    if (countWords(text) > 10000 || countWords(text) < 15) {
+      setShowAlert(true);
+      setOutputText("");
+      return;
+    }
     try {
       setIsFetching(true);
+      setShowAlert(false);
 
-      if (text && text.trim() !== "") {
-        // Überprüfen, ob der Text nicht leer ist
-        let summaryText = text;
-
-        if (countWords(text) >= 15) {
-          summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
-        }
-
-        setOutputText(summaryText);
-      } else {
-        setShowAlert(true); // Zeige eine Warnung an, wenn kein Text eingegeben wurde
-      }
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+      setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
@@ -39,6 +35,7 @@ const ImageInput = () => {
       setIsFetching(false);
     }
   };
+
   const handleImageUpload = async () => {
     if (!uploadedFile) {
       // Überprüfen, ob eine Datei hochgeladen wurde
@@ -51,11 +48,11 @@ const ImageInput = () => {
       const target = e.target as FileReader;
       if (target && target.result) {
         setUploadedImageUrl(target.result as string);
-        const extractedText = await extractTextFromImage(uploadedFile); // Verwenden Sie die hochgeladene Datei
+        const extractedText = await extractTextFromImage(uploadedFile); 
         handleClick(extractedText);
       }
     };
-    reader.readAsDataURL(uploadedFile); // Verwenden Sie die hochgeladene Datei
+    reader.readAsDataURL(uploadedFile); 
   };
 
   const extractTextFromImage = async (file: File): Promise<string> => {
@@ -99,20 +96,21 @@ const ImageInput = () => {
       )}
 
       <Button
+        disabled={isFetching}
         className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
         onClick={handleImageUpload}
       >
-        Summarize Image
+        {isFetching ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
+          </>
+        ) : (
+          "Summarize Text"
+        )}
       </Button>
 
       {showAlert && (
         <CustomAlert message="This Image contains no Text or was not found" />
-      )}
-
-      {isFetching && (
-        <div className="max-w-60 mx-auto mt-4 flex justify-center">
-          <Progress value={progress} />
-        </div>
       )}
 
       {/* Anzeige des zusammengefassten Textes */}

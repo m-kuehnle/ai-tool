@@ -1,18 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import CustomAlert from "./customAlert";
-import { Progress } from "@/components/ui/progress";
 import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { items } from "@/utils/constants";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
+import { countWords } from "../lib/utils";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
-
-const countWords = (text: string) => {
-  return text.split(/\s+/).filter((word) => word !== "").length;
-};
 
 interface TextInputProps {
   example?: string;
@@ -23,7 +19,6 @@ const TextInput = ({ example }: TextInputProps) => {
   const [showAlert, setShowAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
-  const [progress, setProgress] = useState(0);
   const [summary] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
@@ -37,7 +32,7 @@ const TextInput = ({ example }: TextInputProps) => {
       setIsFetching(true);
       setShowAlert(false);
 
-      let summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);

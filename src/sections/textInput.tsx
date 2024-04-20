@@ -91,25 +91,6 @@ const TextInput = ({ example }: TextInputProps) => {
         Summarize Text
       </Button>
 
-      <div className="mt-8 block sm:hidden">
-        <div>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={item.header}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-          <div>{summary}</div>
-        </div>
-      </div>
-
       {showAlert && (
         <CustomAlert
           message={
@@ -132,6 +113,25 @@ const TextInput = ({ example }: TextInputProps) => {
           <p className="text-gray-600 text-sl">{outputText}</p>
         </div>
       )}
+
+      <div className="mt-8 block sm:hidden">
+        <div>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {items.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={item.header}
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                  onClick={() => setInputText(item.example_text)}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+          <div>{summary}</div>
+        </div>
+      </div>
     </>
   );
 };

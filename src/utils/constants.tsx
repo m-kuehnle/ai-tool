@@ -1,5 +1,5 @@
 import Mars from "../assets/mars.jpg";
-import Ronaldo from "../assets/ronaldo.jpg";
+import Ronaldo from "../assets/imagesronaldo.jpg";
 import Hund from "../assets/hund.jpg";
 
 interface Item {

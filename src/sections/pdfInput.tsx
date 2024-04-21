@@ -72,11 +72,9 @@ const PdfInput = () => {
                     <img
                       src={item.header}
                       alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl cursor-pointer"
-                     
+                      className="w-full h-32 object-cover rounded-xl"
                     />
                   }
-
                   onClick={() => {
                     if (item.pdf) {
                       window.open(item.pdf, "_blank");
@@ -84,7 +82,6 @@ const PdfInput = () => {
                       console.error("PDF not available for this example");
                     }
                   }}
-             
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                 />
               </div>
@@ -92,7 +89,41 @@ const PdfInput = () => {
           </BentoGrid>
         </div>
       </div>
-
+  
+      {/* Code für die mobile Ansicht */}
+      <div className="mt-8 block sm:hidden">
+        <div>
+          <h3 className="font-bold text-indigo-600 text-center mb-4">
+            Try some examples
+          </h3>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {pdfexamples.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
+                  onClick={() => {
+                    if (item.pdf) {
+                      window.open(item.pdf, "_blank");
+                    } else {
+                      console.error("PDF not available for this example");
+                    }
+                  }}
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+        </div>
+      </div>
+  
       <Input
         type="file"
         className="sm:max-w-fit mt-4"

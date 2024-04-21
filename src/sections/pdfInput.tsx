@@ -6,8 +6,10 @@ import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 
+
 // @ts-ignore
 import pdfToText from "react-pdftotext";
+
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -36,6 +38,7 @@ const PdfInput = () => {
     if (countWords(text) > 10000 || countWords(text) < 15) {
       setShowAlert(true);
       setOutputText("");
+
       return;
     }
     try {
@@ -73,7 +76,6 @@ const PdfInput = () => {
           "Summarize Text"
         )}
       </Button>
-
       {showAlert && <CustomAlert message="Please upload a PDF to summarize." />}
 
       {outputText && (
@@ -104,10 +106,13 @@ const PdfInput = () => {
               </>
             )}
           </Button>
+
+        
         </div>
       )}
     </>
   );
 };
+
 
 export default PdfInput;

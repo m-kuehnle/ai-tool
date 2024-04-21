@@ -33,7 +33,7 @@ function App() {
               <TabsContent
                 key={value}
                 value={value}
-                className="bg-muted p-4 rounded-lg"
+                className="bg-muted p-4 rounded-lg h-[90svh] overflow-auto"
               >
                 {value === "text-input" && <TextInput />}
                 {value === "file-input" && <PdfInput />}

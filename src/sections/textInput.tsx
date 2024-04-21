@@ -43,7 +43,7 @@ const TextInput = ({ example }: TextInputProps) => {
 
   return (
     <>
-      <div className="mt-8 hidden sm:block">
+      <div className=" hidden sm:block">
         <div>
           <h3 className="font-bold text-indigo-600 text-center mb-4">
             Try some examples

@@ -6,6 +6,8 @@ import Dogs_Screenshot from "../assets/Dogs_Screenshot.png";
 import Chocolate_Photo from "../assets/Chocolate_Photo.jpeg";
 import bundestag from "../assets/imageofpdf.png"; // Pfad zur PDF-Datei für das Beispiel zum Bundesparlament
 import bundestagpdf from "../lib/bundestag.pdf"
+import spacex from "../lib/spacex.pdf"
+import nasa from "../lib/nasa.pdf"
 
 
 interface Item {
@@ -67,24 +69,24 @@ export const image_examples: Item[] = [
 export const pdfexamples: Item[] = [
   {
     title: "A PDF about the federal parliament of Germany",
-    description: "Click on this card to open the PDF about the federal parliament of Germany.You can download the PDF and then put it into this",
+    description: "Click on this card to open the PDF about the federal parliament of Germany.You can download the PDF and then put it into this field.",
     header: bundestag,
     example_text: "",
     pdf: bundestagpdf, // Beispiel-Pfad zur PDF-Datei für das Bundesparlament  BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 
   },
   {
-    title: "A PDF about the Moon ",
-    description: "Click on this card to summarize the PDF about the Moon.You can download the PDF and then put it into this",
+    title: "A PDF about the Nasa",
+    description: "Click on this card to open the PDF about the Nasa.You can download the PDF and then put it into this field.",
     header: bundestag,
     example_text: "",
-    pdf: bundestagpdf, // Beispiel-Pfad zur PDF-Datei für den Mond // BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 
+    pdf: nasa, // Beispiel-Pfad zur PDF-Datei für den Mond // BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 
   },
   {
-    title: "A PDF about the Saturn",
-    description: "Click on this card to summarize the PDF about the Saturn.You can download the PDF and then put it into this",
+    title: "A PDF about why the mars is perfect for us",
+    description: "Click on this card to open the PDF about why the mars is perfect for us.You can download the PDF and then put it into this field.",
     header: bundestag,
     example_text: "",
-    pdf: bundestagpdf, // Beispiel-Pfad zur PDF-Datei für Saturn  BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 
+    pdf: spacex, // Beispiel-Pfad zur PDF-Datei für Saturn  BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 
   },
 ];
 

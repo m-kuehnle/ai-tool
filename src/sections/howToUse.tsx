@@ -44,7 +44,7 @@ export function CarouselDApiDemo() {
   }, [api]);
 
   return (
-    <div>
+    <div className="h-[300px] w-[280px]">
       <Carousel setApi={setApi} className="w-full max-w-xs">
         <CarouselContent>
           {cardContents.map((content, index) => (

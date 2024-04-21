@@ -33,8 +33,6 @@ const PdfInput = () => {
       .catch(() => console.error("Failed to extract text from pdf"));
   };
 
-  
-
   const handleClick = async (text: string) => {
     if (countWords(text) > 10000 || countWords(text) < 15) {
       setShowAlert(true);
@@ -57,7 +55,8 @@ const PdfInput = () => {
 
   return (
     <>
-      <div className="mt-8 hidden sm:block">
+      {/* BentoGrid für Desktop-Ansicht */}
+      <div className="hidden sm:block mt-8">
         <div>
           <h3 className="font-bold text-indigo-600 text-center mb-4">
             Try some examples
@@ -89,41 +88,8 @@ const PdfInput = () => {
           </BentoGrid>
         </div>
       </div>
-  
-      {/* Code für die mobile Ansicht */}
-      <div className="mt-8 block sm:hidden">
-        <div>
-          <h3 className="font-bold text-indigo-600 text-center mb-4">
-            Try some examples
-          </h3>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {pdfexamples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  onClick={() => {
-                    if (item.pdf) {
-                      window.open(item.pdf, "_blank");
-                    } else {
-                      console.error("PDF not available for this example");
-                    }
-                  }}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-        </div>
-      </div>
-  
+
+      {/* Inputfeld und Schaltfläche zum Hochladen */}
       <Input
         type="file"
         className="sm:max-w-fit mt-4"
@@ -145,6 +111,7 @@ const PdfInput = () => {
       </Button>
       {showAlert && <CustomAlert message="Please upload a PDF to summarize." />}
 
+      {/* Anzeige des zusammengefassten Textes */}
       {outputText && (
         <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
           <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
@@ -175,6 +142,40 @@ const PdfInput = () => {
           </Button>
         </div>
       )}
+
+      {/* BentoGrid für mobile Ansicht */}
+      <div className="block sm:hidden mt-8">
+        <div>
+          <h3 className="font-bold text-indigo-600 text-center mb-4">
+            Try some examples
+          </h3>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {pdfexamples.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
+                  onClick={() => {
+                    if (item.pdf) {
+                      window.open(item.pdf, "_blank");
+                    } else {
+                      console.error("PDF not available for this example");
+                    }
+                  }}
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+        </div>
+      </div>
     </>
   );
 };

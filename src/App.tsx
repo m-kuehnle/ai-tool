@@ -8,6 +8,7 @@ import PdfInput from "./sections/pdfInput";
 import ImageInput from "./sections/imageInput";
 import FAQ from "./sections/FAQ";
 import CarouselDApiDemo from "./sections/howToUse";
+import Background from "./sections/background";
 
 function App() {
   const inputOptions = ["text-input", "file-input", "image-input"];
@@ -15,10 +16,8 @@ function App() {
     <>
       <ThemeProvider attribute="class">
         <Header />
-        
-        
+
         <div className="m-4">
-       
           <Tabs defaultValue="text-input">
             <TabsList>
               {inputOptions.map((value) => (
@@ -29,10 +28,8 @@ function App() {
                 </TabsTrigger>
               ))}
             </TabsList>
-            
 
             {inputOptions.map((value) => (
-               
               <TabsContent
                 key={value}
                 value={value}
@@ -44,7 +41,6 @@ function App() {
               </TabsContent>
             ))}
           </Tabs>
-          
         </div>
 
         <div className="sm:m-40 m-8">
@@ -60,6 +56,7 @@ function App() {
         <div className="mt-[70px] mb-[200px] flex justify-center ">
           <CarouselDApiDemo />
         </div>
+        <Background />
       </ThemeProvider>
     </>
   );

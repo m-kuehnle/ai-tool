@@ -6,11 +6,10 @@ import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 
-
 // @ts-ignore
 import pdfToText from "react-pdftotext";
-
-
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { pdfexamples } from "@/utils/constants";
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -34,11 +33,12 @@ const PdfInput = () => {
       .catch(() => console.error("Failed to extract text from pdf"));
   };
 
+  
+
   const handleClick = async (text: string) => {
     if (countWords(text) > 10000 || countWords(text) < 15) {
       setShowAlert(true);
       setOutputText("");
-
       return;
     }
     try {
@@ -57,6 +57,42 @@ const PdfInput = () => {
 
   return (
     <>
+      <div className="mt-8 hidden sm:block">
+        <div>
+          <h3 className="font-bold text-indigo-600 text-center mb-4">
+            Try some examples
+          </h3>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {pdfexamples.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl cursor-pointer"
+                     
+                    />
+                  }
+
+                  onClick={() => {
+                    if (item.pdf) {
+                      window.open(item.pdf, "_blank");
+                    } else {
+                      console.error("PDF not available for this example");
+                    }
+                  }}
+             
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+        </div>
+      </div>
+
       <Input
         type="file"
         className="sm:max-w-fit mt-4"
@@ -106,13 +142,10 @@ const PdfInput = () => {
               </>
             )}
           </Button>
-
-        
         </div>
       )}
     </>
   );
 };
-
 
 export default PdfInput;

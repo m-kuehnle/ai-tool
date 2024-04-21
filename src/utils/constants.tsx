@@ -69,7 +69,7 @@ export const image_examples: Item[] = [
 export const pdfexamples: Item[] = [
   {
     title: "A PDF about the federal parliament of Germany",
-    description: "Click on this card to open the PDF about the federal parliament of Germany.You can download the PDF and then put it into this field.",
+    description: "Click on this card to open the PDF about the federal parliament of Germany.You can download the PDF and then put it into this field",
     header: bundestag,
     example_text: "",
     pdf: bundestagpdf, // Beispiel-Pfad zur PDF-Datei für das Bundesparlament  BELIEBIG ÄNDERN NUR DAMIT ES BELEGT IST 

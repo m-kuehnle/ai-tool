@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react";
 import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
@@ -65,6 +66,11 @@ const PdfInput = () => {
     <div className="grid grid-cols-2 grid-rows-2 gap-4 place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         <PreviewPDF initialFile={uploadedFile} />
+        {!uploadedFile && (
+          <>
+            <Skeleton className="w-full h-64" />
+          </>
+        )}
         {/* {!uploadedFile && (
           <div className="hidden sm:block ">
             <h3 className="font-bold text-indigo-600 text-center mb-4">
@@ -103,6 +109,15 @@ const PdfInput = () => {
         </h2>
         <p className="text-gray-600 text-sl dark:text-white my-4">
           {outputText}
+          {!outputText && (
+            <>
+              <div className="space-y-2">
+                {[...Array(6)].map((_, index) => (
+                  <Skeleton key={index} className="h-4 w-full" />
+                ))}
+              </div>
+            </>
+          )}
         </p>
       </div>
 

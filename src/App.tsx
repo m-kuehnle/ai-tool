@@ -53,7 +53,7 @@ function App() {
         <h3 className="mb-4 font-bold text-indigo-600 text-3xl mt-[100px] ml-[50px] flex justify-center sm:mt-[150px] underline">
           How to use the summarizer?
         </h3>
-        <div className="mt-[70px] mb-[200px] flex justify-center ">
+        <div className="mt-[70px] mb-[30px] flex justify-center ">
           <CarouselDApiDemo />
         </div>
         <Background />

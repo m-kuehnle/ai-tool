@@ -63,7 +63,7 @@ const PdfInput = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-4 place-content-stretch h-full">
+    <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         <PreviewPDF initialFile={uploadedFile} />
         {!uploadedFile && (
@@ -103,7 +103,11 @@ const PdfInput = () => {
         )} */}
       </div>
 
-      <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-3">
+      <div
+        className={`overflow-auto bg-white dark:bg-background rounded-md p-4 sm:row-span-full order-3 ${
+          outputText ? "block" : "hidden sm:block"
+        }`}
+      >
         <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
           Summary:
         </h2>
@@ -123,7 +127,7 @@ const PdfInput = () => {
 
       {/* Inputfeld und Schaltfläche zum Hochladen */}
       <div className="flex flex-col gap-2 row-auto">
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-2">
           <Input
             type="file"
             className="max-w-fit"
@@ -150,7 +154,7 @@ const PdfInput = () => {
         )}
       </div>
 
-      <div className="row-auto">
+      <div className="row-auto order-last">
         {outputText && (
           <Button
             variant="outline"

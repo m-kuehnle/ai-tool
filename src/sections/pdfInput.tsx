@@ -26,6 +26,7 @@ const PdfInput = () => {
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
   type PDFFile = string | File | null;
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
+  const [showAlertForToManyWords, setShowAlertForToManyWords] = useState(false);
 
   const extractText = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
@@ -43,8 +44,9 @@ const PdfInput = () => {
 
   const handleClick = async (text: string) => {
     extractText;
+
     if (countWords(text) > 10000 || countWords(text) < 15) {
-      setShowAlert(true);
+      setShowAlertForToManyWords(true);
       setOutputText("");
       return;
     }
@@ -153,6 +155,13 @@ const PdfInput = () => {
           <CustomAlert message="Please upload a PDF to summarize." />
         )}
       </div>
+
+        
+      {showAlertForToManyWords && (
+        <CustomAlert message="The PDF has too few (15 words) or too many (10.000 words) words to summarise." />
+      )}
+
+
 
       <div className="row-auto order-last">
         {outputText && (

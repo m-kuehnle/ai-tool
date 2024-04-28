@@ -55,25 +55,23 @@ const PreviewPDF: React.FC<PreviewPDFProps> = ({ initialFile }) => {
   }
 
   return (
-    <div className="Example bg-white">
-      <div className="Example__container">
-        <div className="Example__container__document" ref={setContainerRef}>
-          <Document
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            options={options}
-          >
-            {Array.from(new Array(numPages || 0), (_, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                width={
-                  containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-                }
-              />
-            ))}
-          </Document>
-        </div>
+    <div className="Example__container">
+      <div className="Example__container__document" ref={setContainerRef}>
+        <Document
+          file={file}
+          onLoadSuccess={onDocumentLoadSuccess}
+          options={options}
+        >
+          {Array.from(new Array(numPages || 0), (_, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              width={
+                containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
+              }
+            />
+          ))}
+        </Document>
       </div>
     </div>
   );

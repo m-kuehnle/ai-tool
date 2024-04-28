@@ -85,11 +85,12 @@ const PdfInput = () => {
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
-        <PreviewPDF initialFile={uploadedFile} />
+        {uploadedFile &&
+        <PreviewPDF initialFile={uploadedFile} />}
 
         {!uploadedFile && (
           <div className="hidden sm:block">
-            <h3 className="font-bold text-indigo-600 text-center mb-4">
+            <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
               Try some examples
             </h3>
 
@@ -135,7 +136,7 @@ const PdfInput = () => {
         }`}
       >
         <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-          Summary:
+          Summary
         </h2>
         <p className="text-gray-600 text-sl dark:text-white my-4">
           {outputText}

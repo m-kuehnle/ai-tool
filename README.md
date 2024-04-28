@@ -1,5 +1,4 @@
-![Malerbetrieb Kühnle](src/assets/favicon.ico)
-
+![Summarizer](src/assets/logo.png)
 # Summarizer
 
 This AI-powered application enables users to summarize text from diverse input sources. Presently, it accommodates text, PDF, and image inputs.

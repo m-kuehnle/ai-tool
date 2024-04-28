@@ -103,7 +103,7 @@ const ImageInput = () => {
     <>
       <div className="hidden sm:block">
         <div>
-          <h3 className="font-bold text-indigo-600 text-center mb-4">
+          <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
             Try some examples
           </h3>
           <BentoGrid className="max-w-4xl mx-auto">
@@ -174,7 +174,7 @@ const ImageInput = () => {
       {outputText && (
         <div className="bg-white dark:bg-background  rounded-md p-4 mt-4">
           <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-            Summary:
+            Summary
           </h2>
           <p className="text-gray-600 text-sl dark:text-white my-4">
             {outputText}

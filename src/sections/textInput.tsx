@@ -63,7 +63,7 @@ const TextInput = ({ example }: TextInputProps) => {
     <>
       {/* Examples */}
       <div className="p-4">
-        <h3 className="font-bold text-indigo-600 text-center mb-4">
+        <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
           Try some examples
         </h3>
         <BentoGrid className="max-w-4xl mx-auto">
@@ -110,7 +110,8 @@ const TextInput = ({ example }: TextInputProps) => {
           >
             {isFetching ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing
+                ...
               </>
             ) : (
               "Summarize Text"
@@ -121,9 +122,9 @@ const TextInput = ({ example }: TextInputProps) => {
         {/* Summary */}
         <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 flex flex-col h-full">
           <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-            Summary:
+            Summary
           </h2>
-          <p className="text-gray-600 text-sl dark:text-white my-4 flex-grow">
+          <div className="text-gray-600 text-sl dark:text-white my-4 flex-grow">
             {outputText}
             {!outputText && (
               <>
@@ -134,7 +135,7 @@ const TextInput = ({ example }: TextInputProps) => {
                 </div>
               </>
             )}
-          </p>
+          </div>
           {outputText && (
             <Button
               variant="outline"

@@ -1,6 +1,8 @@
-# AI Summarizer
+![Malerbetrieb Kühnle](src/assets/favicon.ico)
 
-This application empowers users to summarize text from a variety of input sources. Currently, it supports text, PDF, and image inputs.
+# Summarizer
+
+This AI-powered application enables users to summarize text from diverse input sources. Presently, it accommodates text, PDF, and image inputs.
 
 ## Tech Stack
 

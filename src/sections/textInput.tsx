@@ -79,7 +79,7 @@ const TextInput = ({ example }: TextInputProps) => {
                     />
                   }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
+                  onClick={() => setInputText(item.input)}
                 />
               </div>
             ))}
@@ -164,7 +164,7 @@ const TextInput = ({ example }: TextInputProps) => {
                     />
                   }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
+                  onClick={() => setInputText(item.input)}
                 />
               </div>
             ))}

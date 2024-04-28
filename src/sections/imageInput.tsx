@@ -121,7 +121,7 @@ const ImageInput = () => {
                   }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   onClick={async () => {
-                    const file = await convertUrlToFile(item.header);
+                    const file = await convertUrlToFile(item.input);
                     setUploadedFile(file);
                   }}
                 />
@@ -222,7 +222,7 @@ const ImageInput = () => {
                   }
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   onClick={async () => {
-                    const file = await convertUrlToFile(item.header);
+                    const file = await convertUrlToFile(item.input);
                     setUploadedFile(file);
                   }}
                 />

@@ -11,8 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 // @ts-ignore
 import pdfToText from "react-pdftotext";
 
-//import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-//import { pdfexamples } from "@/utils/constants";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { pdfexamples } from "@/utils/constants";
 import PreviewPDF from "./pdfPreview";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 
@@ -29,7 +29,7 @@ const PdfInput = () => {
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
   const [errorMessage, seterrorMessage] = useState("");
 
-  const extractText = async (event: ChangeEvent<HTMLInputElement>) => {
+  const initializeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
     const files = event.target.files;
     if (!files || files.length === 0) {
@@ -37,15 +37,16 @@ const PdfInput = () => {
       return;
     }
 
-    const file = files[0];
+    extractTextFromFile(files[0]);
+  };
+
+  const extractTextFromFile = async (file: File) => {
     pdfToText(file)
       .then((text: string) => setPdfText(text))
       .catch(() => console.error("Failed to extract text from pdf"));
   };
 
-  const handleClick = async (text: string) => {
-    extractText;
-
+  const summarizeText = async (text: string) => {
     if (!text) {
       setShowAlert(true);
       setOutputText("");
@@ -54,7 +55,6 @@ const PdfInput = () => {
     }
 
     const wordCount = countWords(text);
-   
 
     if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
       setShowAlert(true);
@@ -86,13 +86,9 @@ const PdfInput = () => {
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         <PreviewPDF initialFile={uploadedFile} />
+
         {!uploadedFile && (
-          <>
-            <Skeleton className="w-full h-64" />
-          </>
-        )}
-        {/* {!uploadedFile && (
-          <div className="hidden sm:block ">
+          <div className="hidden sm:block">
             <h3 className="font-bold text-indigo-600 text-center mb-4">
               Try some examples
             </h3>
@@ -111,8 +107,18 @@ const PdfInput = () => {
                       />
                     }
                     onClick={() => {
-                     extractText;
-                     handleClick("hallo das ist beispieltext aus dem pdf nochmal mehr text und noch mehr text und noch mehr und mehr 100 wörter");
+                      setUploadedFile(item.input);
+                      fetch(item.input)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          const file = new File([blob], item.input, {
+                            type: "application/pdf",
+                          });
+                          extractTextFromFile(file);
+                        })
+                        .catch((error) =>
+                          console.error("Error fetching PDF:", error)
+                        );
                     }}
                     className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                   />
@@ -120,7 +126,7 @@ const PdfInput = () => {
               ))}
             </BentoGrid>
           </div>
-        )} */}
+        )}
       </div>
 
       <div
@@ -152,12 +158,12 @@ const PdfInput = () => {
             type="file"
             className="max-w-fit"
             accept="application/pdf"
-            onChange={extractText}
+            onChange={initializeFile}
           />
           <Button
             disabled={isFetching}
             className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
-            onClick={() => handleClick(pdfText)}
+            onClick={() => summarizeText(pdfText)}
           >
             {isFetching ? (
               <>

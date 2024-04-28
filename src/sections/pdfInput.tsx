@@ -14,6 +14,7 @@ import pdfToText from "react-pdftotext";
 //import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 //import { pdfexamples } from "@/utils/constants";
 import PreviewPDF from "./pdfPreview";
+import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -26,7 +27,7 @@ const PdfInput = () => {
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
   type PDFFile = string | File | null;
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
-  const [showAlertForToManyWords, setShowAlertForToManyWords] = useState(false);
+  const [errorMessage, seterrorMessage] = useState("");
 
   const extractText = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
@@ -45,9 +46,26 @@ const PdfInput = () => {
   const handleClick = async (text: string) => {
     extractText;
 
-    if (countWords(text) > 10000 || countWords(text) < 15) {
-      setShowAlertForToManyWords(true);
+    if (!text) {
+      setShowAlert(true);
       setOutputText("");
+      seterrorMessage("Please upload a PDF to summarize.");
+      return;
+    }
+
+    const wordCount = countWords(text);
+   
+
+    if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
+      setShowAlert(true);
+      setOutputText("");
+      seterrorMessage(
+        `Please make sure the PDF contains ${
+          wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
+        } ${
+          wordCount > WORD_LIMIT_MAX ? WORD_LIMIT_MAX : WORD_LIMIT_MIN
+        } words.`
+      );
       return;
     }
     try {
@@ -152,16 +170,11 @@ const PdfInput = () => {
           </Button>
         </div>
         {showAlert && (
-          <CustomAlert message="Please upload a PDF to summarize." />
+          <div className="mt-[10px]">
+            <CustomAlert message={errorMessage} />
+          </div>
         )}
       </div>
-
-        
-      {showAlertForToManyWords && (
-        <CustomAlert message="The PDF has too few (15 words) or too many (10.000 words) words to summarise." />
-      )}
-
-
 
       <div className="row-auto order-last">
         {outputText && (

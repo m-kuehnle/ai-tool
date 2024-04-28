@@ -120,3 +120,6 @@ export const faqData = [
       "Absolutely! Our website supports text extraction and summarization from images. Simply upload the image containing the text, and our application will handle the rest.",
   },
 ];
+
+export const WORD_LIMIT_MAX = 10000;
+export const WORD_LIMIT_MIN = 50;

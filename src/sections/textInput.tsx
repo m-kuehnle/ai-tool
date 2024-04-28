@@ -7,6 +7,7 @@ import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { text_examples } from "@/utils/constants";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 import { countWords } from "../lib/utils";
+import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -20,11 +21,27 @@ const TextInput = ({ example }: TextInputProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
+  const [errorMessage, seterrorMessage] = useState("");
 
   const handleClick = async (text: string) => {
-    if (countWords(text) > 10000 || countWords(text) < 15) {
+    if (!text) {
       setShowAlert(true);
       setOutputText("");
+      seterrorMessage("Please enter a text to summarize.");
+      return;
+    }
+
+    const wordCount = countWords(text);
+    if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
+      setShowAlert(true);
+      setOutputText("");
+      seterrorMessage(
+        `Please make sure the Text contains ${
+          wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
+        } ${
+          wordCount > WORD_LIMIT_MAX ? WORD_LIMIT_MAX : WORD_LIMIT_MIN
+        } words.`
+      );
       return;
     }
     try {
@@ -92,13 +109,9 @@ const TextInput = ({ example }: TextInputProps) => {
       </Button>
 
       {showAlert && (
-        <CustomAlert
-          message={
-            countWords(inputText ?? "") > 10000
-              ? "You can only enter 10.000 words."
-              : "Please enter at least 15 words to summarize."
-          }
-        />
+        <div className="mt-[10px]">
+          <CustomAlert message={errorMessage} />
+        </div>
       )}
 
       {outputText && (
@@ -161,5 +174,4 @@ const TextInput = ({ example }: TextInputProps) => {
     </>
   );
 };
-
 export default TextInput;

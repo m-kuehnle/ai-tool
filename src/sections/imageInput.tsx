@@ -8,6 +8,7 @@ import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { image_examples } from "@/utils/constants";
+import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -17,13 +18,9 @@ const ImageInput = () => {
   const [outputText, setOutputText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
+  const [errorMessage, seterrorMessage] = useState("");
 
   const handleClick = async (text: string) => {
-    if (countWords(text) > 10000 || countWords(text) < 15) {
-      setShowAlert(true);
-      setOutputText("");
-      return;
-    }
     try {
       setIsFetching(true);
       setShowAlert(false);
@@ -41,6 +38,7 @@ const ImageInput = () => {
   const handleImageUpload = async () => {
     if (!uploadedFile) {
       setShowAlert(true);
+      seterrorMessage(`Please upload a Image to summarize.`);
       return;
     }
     setIsFetching(true);
@@ -50,6 +48,21 @@ const ImageInput = () => {
       const target = e.target as FileReader;
       if (target && target.result) {
         const extractedText = await extractTextFromImage(uploadedFile);
+
+        const wordCount = countWords(extractedText);
+        if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
+          setShowAlert(true);
+          setOutputText("");
+          setIsFetching(false);
+          seterrorMessage(
+            `Please make sure the Image contains ${
+              wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
+            } ${
+              wordCount > WORD_LIMIT_MAX ? WORD_LIMIT_MAX : WORD_LIMIT_MIN
+            } words.`
+          );
+          return;
+        }
         handleClick(extractedText);
       }
     };
@@ -152,7 +165,9 @@ const ImageInput = () => {
       </Button>
 
       {showAlert && (
-        <CustomAlert message="This Image contains no Text or was not found" />
+        <div className="mt-[10px]">
+          <CustomAlert message={errorMessage} />
+        </div>
       )}
 
       {/* Anzeige des zusammengefassten Textes */}

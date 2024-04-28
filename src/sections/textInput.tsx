@@ -5,9 +5,10 @@ import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import { text_examples } from "@/utils/constants";
-import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
+import { Loader2, Clipboard, ClipboardCheckIcon } from "lucide-react";
 import { countWords } from "../lib/utils";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -20,14 +21,14 @@ const TextInput = ({ example }: TextInputProps) => {
   const [showAlert, setShowAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
-  const [errorMessage, seterrorMessage] = useState("");
 
   const handleClick = async (text: string) => {
     if (!text) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage("Please enter a text to summarize.");
+      setErrorMessage("Please enter a text to summarize.");
       return;
     }
 
@@ -35,7 +36,7 @@ const TextInput = ({ example }: TextInputProps) => {
     if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage(
+      setErrorMessage(
         `Please make sure the Text contains ${
           wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
         } ${
@@ -60,118 +61,105 @@ const TextInput = ({ example }: TextInputProps) => {
 
   return (
     <>
-      <div className=" hidden sm:block">
-        <div>
-          <h3 className="font-bold text-indigo-600 text-center mb-4">
-            Try some examples
-          </h3>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {text_examples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-        </div>
+      {/* Examples */}
+      <div className="p-4">
+        <h3 className="font-bold text-indigo-600 text-center mb-4">
+          Try some examples
+        </h3>
+        <BentoGrid className="max-w-4xl mx-auto">
+          {text_examples.map((item, i) => (
+            <div key={i}>
+              <BentoGridItem
+                title={item.title}
+                description={item.description}
+                header={
+                  <img
+                    src={item.header}
+                    alt={item.title}
+                    className="w-full h-32 object-cover rounded-xl"
+                  />
+                }
+                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                onClick={() => setInputText(item.example_text)}
+              />
+            </div>
+          ))}
+        </BentoGrid>
       </div>
 
-      <Textarea
-        placeholder="Insert your text here..."
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        className="mt-4 text-gray-600 text-sm"
-      />
-
-      <Button
-        disabled={isFetching}
-        className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
-        onClick={() => handleClick(inputText || "")}
-      >
-        {isFetching ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
-          </>
-        ) : (
-          "Summarize Text"
-        )}
-      </Button>
-
-      {showAlert && (
-        <div className="mt-[10px]">
-          <CustomAlert message={errorMessage} />
-        </div>
-      )}
-
-      {outputText && (
-        <div className="bg-white dark:bg-background rounded-md p-4 mt-4">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-            Summary:
-          </h2>
-          <p className="text-gray-600 text-sl dark:text-white my-4">
-            {outputText}
-          </p>
+      {/* Textarea and Summary */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Textarea */}
+        <div className="p-4 flex flex-col h-full">
+          <Textarea
+            placeholder="Insert your text here..."
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            className="text-gray-600 text-sm flex-grow"
+          />
+          {/* CustomAlert */}
+          {showAlert && (
+            <div className="mt-2">
+              <CustomAlert message={errorMessage} />
+            </div>
+          )}
           <Button
-            variant="secondary"
-            onClick={() => {
-              navigator.clipboard.writeText(outputText);
-              setCopyClipboardSuccess(true);
-            }}
+            disabled={isFetching}
+            className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+            onClick={() => handleClick(inputText || "")}
           >
-            {!copyClipboardSuccess && (
+            {isFetching ? (
               <>
-                <Clipboard className="mr-2 h-4 w-4" />
-                Copy to Clipboard
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
               </>
-            )}
-            {copyClipboardSuccess && (
-              <>
-                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
-                Successfully Copied
-              </>
+            ) : (
+              "Summarize Text"
             )}
           </Button>
         </div>
-      )}
 
-      <div className="mt-8 block sm:hidden">
-        <div>
-          <h3 className="font-bold text-indigo-600 text-center mb-4">
-            Try some examples
-          </h3>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {text_examples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
+        {/* Summary */}
+        <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 flex flex-col h-full">
+          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Summary:
+          </h2>
+          <p className="text-gray-600 text-sl dark:text-white my-4 flex-grow">
+            {outputText}
+            {!outputText && (
+              <>
+                <div className="space-y-2">
+                  {[...Array(6)].map((_, index) => (
+                    <Skeleton key={index} className="h-4 w-full" />
+                  ))}
+                </div>
+              </>
+            )}
+          </p>
+          {outputText && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                navigator.clipboard.writeText(outputText);
+                setCopyClipboardSuccess(true);
+              }}
+            >
+              {!copyClipboardSuccess ? (
+                <>
+                  <Clipboard className="mr-2 h-4 w-4" />
+                  Copy to Clipboard
+                </>
+              ) : (
+                <>
+                  <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
+                  Successfully Copied
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
     </>
   );
 };
+
 export default TextInput;

@@ -19,13 +19,13 @@ This AI-powered application enables users to summarize text from diverse input s
 Clone the project
 
 ```bash
-  git clone https://github.com/m-kuehnle/ai-tool
+  git clone https://github.com/m-kuehnle/summarizer
 ```
 
 Go to the project directory
 
 ```bash
-  cd ai-tools
+  cd summarizer
 ```
 
 Install dependencies
@@ -42,7 +42,7 @@ Start the development server
 
 ## Demo
 
-Use the Live App: https://ai-tool.kuehnle.me
+Use the Live App: https://summarizer.kuehnle.me
 
 ## Environment Variables
 

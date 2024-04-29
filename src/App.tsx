@@ -9,6 +9,7 @@ import ImageInput from "./sections/imageInput";
 import FAQ from "./sections/FAQ";
 import CarouselDApiDemo from "./sections/howToUse";
 import Background from "./sections/background";
+import Footer from "./sections/footer";
 
 function App() {
   const inputOptions = ["text-input", "file-input", "image-input"];
@@ -57,16 +58,8 @@ function App() {
           <CarouselDApiDemo />
         </div>
 
-        {/* Icon Credits */}
-        <div className="my-2 text-center">
-          <a
-            href="https://www.flaticon.com/free-icons/investigation"
-            title="investigation icons"
-            className="text-gray-500 text-sm"
-          >
-            Investigation icons created by Icongeek26 - Flaticon
-          </a>
-        </div>
+        <Footer/>
+
         <Background />
       </ThemeProvider>
     </>

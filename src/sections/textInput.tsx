@@ -95,7 +95,7 @@ const TextInput = ({ example }: TextInputProps) => {
             placeholder="Insert your text here..."
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            className="text-gray-600 text-sm flex-grow"
+            className="text-gray-600 text-sm flex-grow "
           />
           {/* CustomAlert */}
           {showAlert && (
@@ -140,7 +140,7 @@ const TextInput = ({ example }: TextInputProps) => {
       </div>
 
       {/* Textarea and Summary on Mobile Device*/}
-      <div className="grid grid-cols-1 gap-4 md:hidden">
+      <div className="grid grid-cols-1 gap-4 md:hidden mb-[80px]">
         {/* Textarea */}
         <div className="p-4 flex flex-col h-full">
           <Textarea

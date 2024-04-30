@@ -109,7 +109,6 @@ const ImageInput = () => {
             <img
               src={URL.createObjectURL(uploadedFile)}
               alt="Uploaded Image"
-              style={{ maxWidth: "60%" }}
             />
           </div>
         )}

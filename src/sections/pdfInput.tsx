@@ -85,11 +85,12 @@ const PdfInput = () => {
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
-        {uploadedFile &&
-        <PreviewPDF initialFile={uploadedFile} />}
+        
+        {/* PDF Preview und Beispiele */}
+        {uploadedFile && <PreviewPDF initialFile={uploadedFile} />}
 
         {!uploadedFile && (
-          <div className="">
+          <div>
             <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
               Try some examples
             </h3>
@@ -130,6 +131,7 @@ const PdfInput = () => {
         )}
       </div>
 
+      {/* Summary Output */}
       <div
         className={`overflow-auto bg-white dark:bg-background rounded-md p-4 sm:row-span-full order-3 ${
           outputText ? "block" : "hidden sm:block"
@@ -207,40 +209,6 @@ const PdfInput = () => {
           </Button>
         )}
       </div>
-
-      {/* BentoGrid für mobile Ansicht */}
-      {/* <div className="block sm:hidden mt-8">
-        <div>
-          <h3 className="font-bold text-indigo-600 text-center mb-4">
-            Try some examples
-          </h3>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {pdfexamples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  onClick={() => {
-                    if (item.pdf) {
-                      window.open(item.pdf, "_blank");
-                    } else {
-                      console.error("PDF not available for this example");
-                    }
-                  }}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-        </div>
-      </div> */}
     </div>
   );
 };

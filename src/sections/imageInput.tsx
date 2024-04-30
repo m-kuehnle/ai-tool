@@ -103,17 +103,16 @@ const ImageInput = () => {
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
-        
         {/* Image Preview und Beispiele */}
         {uploadedFile && (
-        <div className="mt-2 relative">
-          <img
-            src={URL.createObjectURL(uploadedFile)}
-            alt="Uploaded Image"
-            style={{ maxWidth: "60%" }}
-          />
-        </div>
-      )}
+          <div className="mt-2 relative">
+            <img
+              src={URL.createObjectURL(uploadedFile)}
+              alt="Uploaded Image"
+              style={{ maxWidth: "60%" }}
+            />
+          </div>
+        )}
 
         {!uploadedFile && (
           <div>
@@ -122,27 +121,27 @@ const ImageInput = () => {
             </h3>
 
             <BentoGrid className="max-w-4xl mx-auto">
-            {image_examples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={async () => {
-                    const file = await convertUrlToFile(item.input);
-                    setUploadedFile(file);
-                  }}
-                />
-              </div>
-            ))}
-          </BentoGrid>
+              {image_examples.map((item, i) => (
+                <div key={i}>
+                  <BentoGridItem
+                    title={item.title}
+                    description={item.description}
+                    header={
+                      <img
+                        src={item.header}
+                        alt={item.title}
+                        className="w-full h-32 object-cover rounded-xl"
+                      />
+                    }
+                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                    onClick={async () => {
+                      const file = await convertUrlToFile(item.input);
+                      setUploadedFile(file);
+                    }}
+                  />
+                </div>
+              ))}
+            </BentoGrid>
           </div>
         )}
       </div>
@@ -179,12 +178,13 @@ const ImageInput = () => {
             accept="image/*"
             onChange={(e) =>
               setUploadedFile(e.target.files ? e.target.files[0] : null)
-            }          />
+            }
+          />
           <Button
             disabled={isFetching}
             className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
             onClick={handleImageUpload}
-            >
+          >
             {isFetching ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing

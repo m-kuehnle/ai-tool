@@ -60,52 +60,72 @@ const TextInput = ({ example }: TextInputProps) => {
   };
 
   return (
-    <>
-      {/* Examples */}
-      <div className="p-4 hidden md:block">
-        <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-          Try some examples
-        </h3>
-        <BentoGrid className="max-w-4xl mx-auto">
-          {text_examples.map((item, i) => (
-            <div key={i}>
-              <BentoGridItem
-                title={item.title}
-                description={item.description}
-                header={
-                  <img
-                    src={item.header}
-                    alt={item.title}
-                    className="w-full h-32 object-cover rounded-xl"
-                  />
-                }
-                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                onClick={() => setInputText(item.input)}
-              />
-            </div>
-          ))}
-        </BentoGrid>
+    <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
+      <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
+        {/* Text Preview und Beispiele */}
+        <Textarea
+          placeholder="Insert your text here..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          className="text-gray-600 text-sm flex-grow "
+        />
+
+        {/* Examples */}
+        <div className="p-4 ">
+          <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Try some examples
+          </h3>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {text_examples.map((item, i) => (
+              <div key={i}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={
+                    <img
+                      src={item.header}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded-xl"
+                    />
+                  }
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                  onClick={() => setInputText(item.input)}
+                />
+              </div>
+            ))}
+          </BentoGrid>
+        </div>
       </div>
 
-      {/* Textarea and Summary on desktop */}
-      <div className="grid grid-cols-2 gap-4 hidden md:grid">
-        {/* Textarea */}
-        <div className="p-4 flex flex-col h-full">
-          <Textarea
-            placeholder="Insert your text here..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            className="text-gray-600 text-sm flex-grow "
-          />
-          {/* CustomAlert */}
-          {showAlert && (
-            <div className="mt-2">
-              <CustomAlert message={errorMessage} />
-            </div>
+      {/* Summary Output */}
+      <div
+        className={`overflow-auto bg-white dark:bg-background rounded-md p-4 sm:row-span-full order-3 ${
+          outputText ? "block" : "hidden sm:block"
+        }`}
+      >
+        <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+          Summary
+        </h2>
+        <div className="text-gray-600 text-sl dark:text-white my-4">
+          {outputText}
+          {!outputText && (
+            <>
+              <div className="space-y-2">
+                {[...Array(6)].map((_, index) => (
+                  <Skeleton key={index} className="h-4 w-full" />
+                ))}
+              </div>
+            </>
           )}
+        </div>
+      </div>
+
+      {/* Inputfeld und Schaltfläche zum Hochladen */}
+      <div className="flex flex-col gap-2 row-auto">
+        <div className="flex justify-end gap-2">
           <Button
             disabled={isFetching}
-            className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+            className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
             onClick={() => handleClick(inputText || "")}
           >
             {isFetching ? (
@@ -118,80 +138,15 @@ const TextInput = ({ example }: TextInputProps) => {
             )}
           </Button>
         </div>
-
-        {/* Summary */}
-        <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 flex flex-col h-full">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-            Summary
-          </h2>
-          <div className="text-gray-600 text-sl dark:text-white my-4 flex-grow">
-            {outputText}
-            {!outputText && (
-              <>
-                <div className="space-y-2">
-                  {[...Array(6)].map((_, index) => (
-                    <Skeleton key={index} className="h-4 w-full" />
-                  ))}
-                </div>
-              </>
-            )}
+        {showAlert && (
+          <div className="mt-[10px]">
+            <CustomAlert message={errorMessage} />
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Textarea and Summary on Mobile Device*/}
-      <div className="grid grid-cols-1 gap-4 md:hidden mb-[80px]">
-        {/* Textarea */}
-        <div className="p-4 flex flex-col h-full">
-          <Textarea
-            placeholder="Insert your text here..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            className="text-gray-600 text-sm flex-grow"
-          />
-          {/* CustomAlert */}
-          {showAlert && (
-            <div className="mt-2">
-              <CustomAlert message={errorMessage} />
-            </div>
-          )}
-          <Button
-            disabled={isFetching}
-            className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
-            onClick={() => handleClick(inputText || "")}
-          >
-            {isFetching ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing
-                ...
-              </>
-            ) : (
-              "Summarize Text"
-            )}
-          </Button>
-        </div>
-        {/* Summary */}
-        <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 flex flex-col h-full">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-            Summary
-          </h2>
-          <div className="text-gray-600 text-sl dark:text-white my-4 flex-grow">
-            {outputText}
-            {!outputText && (
-              <>
-                <div className="space-y-2">
-                  {[...Array(6)].map((_, index) => (
-                    <Skeleton key={index} className="h-4 w-full" />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {outputText && (
-        <div className="p-4 flex sm:mt-[10px] sm:ml-[1030px] flex justify-center">
+      <div className="row-auto order-last">
+        {outputText && (
           <Button
             variant="outline"
             onClick={() => {
@@ -199,47 +154,22 @@ const TextInput = ({ example }: TextInputProps) => {
               setCopyClipboardSuccess(true);
             }}
           >
-            {!copyClipboardSuccess ? (
+            {!copyClipboardSuccess && (
               <>
                 <Clipboard className="mr-2 h-4 w-4" />
                 Copy to Clipboard
               </>
-            ) : (
+            )}
+            {copyClipboardSuccess && (
               <>
                 <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
                 Successfully Copied
               </>
             )}
           </Button>
-        </div>
-      )}
-
-      {/* Examples on Mobile */}
-      <div className="p-4 md:hidden">
-        <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
-          Try some examples
-        </h3>
-        <BentoGrid className="max-w-4xl mx-auto">
-          {text_examples.map((item, i) => (
-            <div key={i}>
-              <BentoGridItem
-                title={item.title}
-                description={item.description}
-                header={
-                  <img
-                    src={item.header}
-                    alt={item.title}
-                    className="w-full h-32 object-cover rounded-xl"
-                  />
-                }
-                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                onClick={() => setInputText(item.input)}
-              />
-            </div>
-          ))}
-        </BentoGrid>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

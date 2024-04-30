@@ -1,7 +1,6 @@
 import "./App.css";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { ThemeProvider } from "next-themes";
-import project from "./assets/project.svg";
 
 import Header from "./sections/header";
 import TextInput from "./sections/textInput";
@@ -11,7 +10,6 @@ import FAQ from "./sections/FAQ";
 import Steps from "./sections/steps";
 import Background from "./sections/background";
 import Footer from "./sections/footer";
-import { Button } from "./components/ui/button";
 
 function App() {
   const inputOptions = ["text-input", "file-input", "image-input"];
@@ -46,9 +44,13 @@ function App() {
           </Tabs>
         </div>
 
-        <FAQ />
+        <div className="mt-20">
+          <FAQ />
+        </div>
 
-        <Steps />
+        <div className="mt-4">
+          <Steps />
+        </div>
 
         <Footer />
       </ThemeProvider>

@@ -89,7 +89,7 @@ const PdfInput = () => {
         <PreviewPDF initialFile={uploadedFile} />}
 
         {!uploadedFile && (
-          <div className="hidden sm:block">
+          <div className="">
             <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
               Try some examples
             </h3>
@@ -138,7 +138,7 @@ const PdfInput = () => {
         <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
           Summary
         </h2>
-        <p className="text-gray-600 text-sl dark:text-white my-4">
+        <div className="text-gray-600 text-sl dark:text-white my-4">
           {outputText}
           {!outputText && (
             <>
@@ -149,7 +149,7 @@ const PdfInput = () => {
               </div>
             </>
           )}
-        </p>
+        </div>
       </div>
 
       {/* Inputfeld und Schaltfläche zum Hochladen */}

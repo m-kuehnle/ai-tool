@@ -46,12 +46,7 @@ function App() {
           </Tabs>
         </div>
 
-        <div className="sm:m-40 m-8">
-          <h2 className="mb-4 font-bold text-indigo-600 text-3xl mt-[100px] flex justify-center sm:mt-[150px] underline">
-            FAQ
-          </h2>
-          <FAQ />
-        </div>
+        <FAQ />
 
         <Steps />
 

@@ -60,8 +60,9 @@ function App() {
 
         <Footer/>
 
-        <Background />
       </ThemeProvider>
+      <Background />
+
     </>
   );
 }

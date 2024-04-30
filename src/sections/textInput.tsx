@@ -110,7 +110,8 @@ const TextInput = ({ example }: TextInputProps) => {
           >
             {isFetching ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing ...
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing
+                ...
               </>
             ) : (
               "Summarize Text"
@@ -137,31 +138,6 @@ const TextInput = ({ example }: TextInputProps) => {
           </div>
         </div>
       </div>
-      
-
-      {outputText && (
-        <div className="ml-[1044px] mt-[10px]">
-          <Button
-            variant="outline"
-            onClick={() => {
-              navigator.clipboard.writeText(outputText);
-              setCopyClipboardSuccess(true);
-            }}
-          >
-            {!copyClipboardSuccess ? (
-              <>
-                <Clipboard className="mr-2 h-4 w-4" />
-                Copy to Clipboard
-              </>
-            ) : (
-              <>
-                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
-                Successfully Copied
-              </>
-            )}
-          </Button>
-        </div>
-      )}
 
       {/* Textarea and Summary on Mobile Device*/}
       <div className="grid grid-cols-1 gap-4 md:hidden">
@@ -215,7 +191,7 @@ const TextInput = ({ example }: TextInputProps) => {
       </div>
 
       {outputText && (
-        <div className="ml-[1044px] mt-[10px]">
+        <div className="p-4 flex sm:mt-[10px] sm:ml-[1030px] flex justify-center">
           <Button
             variant="outline"
             onClick={() => {

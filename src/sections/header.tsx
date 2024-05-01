@@ -41,6 +41,12 @@ const Header = () => {
             <ModeToggle />
           </div>
         </div>
+
+        <div className="flex items-center justify-center fixed ml-[350px] md:hidden">
+          <div className="flex items-center">
+            <ModeToggle />
+          </div>
+        </div>
       </div>
       <div className="flex justify-center items-center mx-4 my-16">
         <h1 className="text-4xl text-center sm:text-6xl font-bold text-gray-600 dark:text-gray-50">

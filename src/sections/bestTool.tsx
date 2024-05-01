@@ -62,7 +62,7 @@ export function BestTool() {
     const allChecked = checkedState.every((checked) => checked);
     if (allChecked) {
       setTimeout(() => {
-        setCheckedState([false, false, false, false, false]); // Reset Checkbox states
+        setCheckedState([false, false, false, false, false , false]); // Reset Checkbox states
       }, 5000); // Reset Checkbox states after 5 seconds
     }
   }, [checkedState]);
@@ -244,7 +244,7 @@ export function BestTool() {
             </label>
           </div>
           <div className="flex items-center space-x-2 mt-[50px] ml-[300px]">
-            <Checkbox id="terms5" checked={checkedState[5]} />
+            <Checkbox id="terms6" checked={checkedState[5]} />
             <label
               htmlFor="terms6"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

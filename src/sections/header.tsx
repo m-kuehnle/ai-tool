@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center my-10 mx-4 z-10 relative">
+      <div className="flex justify-between items-center my-10 mx-4 z-10 relative mt-[25px]">
         <div className="flex flex-row items-center fixed">
           <a href="#" onClick={() => window.location.reload()}>
             <img src={icon} alt="icon" className="w-12 h-12 mr-2" />
@@ -42,7 +42,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center fixed ml-[350px] md:hidden">
+        <div className="md:hidden flex items-center justify-center fixed ml-[300px] mt-[-2px]">
           <div className="flex items-center">
             <ModeToggle />
           </div>

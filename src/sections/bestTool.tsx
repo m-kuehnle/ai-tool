@@ -244,7 +244,7 @@ export function BestTool() {
             </label>
           </div>
           <div className="flex items-center space-x-2 mt-[50px] ml-[300px]">
-            <Checkbox id="terms5" checked={checkedState[4]} />
+            <Checkbox id="terms5" checked={checkedState[5]} />
             <label
               htmlFor="terms6"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

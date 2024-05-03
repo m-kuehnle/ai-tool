@@ -15,7 +15,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel-custom";
-import { text } from "stream/consumers";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 

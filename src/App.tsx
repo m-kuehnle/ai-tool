@@ -9,7 +9,6 @@ import ImageInput from "./sections/imageInput";
 import FAQ from "./sections/FAQ";
 import Steps from "./sections/steps";
 import Background from "./sections/background";
-import BestTool from "./sections/bestTool";
 import Footer from "./sections/footer";
 
 function App() {

@@ -9,6 +9,7 @@ export function Steps() {
       summarizerElement.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   return (
     <div>
       <div className="max-w-5xl px-4 xl:px-0 py-10 lg:pt-20 lg:pb-20 mx-auto">
@@ -18,7 +19,7 @@ export function Steps() {
           </h2>
           <p className="mt-1 text-neutral-400">
             Follow these simple steps to get your text, PDF, or image
-            summarised.
+            summarized.
           </p>
         </div>
 
@@ -51,7 +52,7 @@ export function Steps() {
                 <p className="text-sm lg:text-base text-neutral-400">
                   <span className="text-indigo-600">Prepare</span>
                   <br></br>
-                  Make sure you text contains at least 50 and at most 10,000
+                  Make sure your text contains at least 50 and at most 10,000
                   words.
                 </p>
               </div>
@@ -70,7 +71,7 @@ export function Steps() {
                 <p className="text-sm lg:text-base text-neutral-400">
                   <span className="text-indigo-600">Insert</span>
                   <br></br>
-                  Insert the text, PDF or image in the field provided.
+                  Insert the text, PDF, or image in the provided field.
                 </p>
               </div>
             </div>
@@ -111,7 +112,8 @@ export function Steps() {
                 </p>
               </div>
             </div>
-            <a href="#summarizer">
+
+            <a href="#summarizer" onClick={scrollToSummarizer}>
               <Button variant="outline">Use it now</Button>
             </a>
           </div>

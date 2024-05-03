@@ -10,6 +10,7 @@ import FAQ from "./sections/FAQ";
 import Steps from "./sections/steps";
 import Background from "./sections/background";
 import BestTool from "./sections/bestTool";
+import Footer from "./sections/footer";
 
 function App() {
   const inputOptions = ["text-input", "file-input", "image-input"];
@@ -52,10 +53,8 @@ function App() {
           <Steps />
         </div>
 
-        <div className="mt-4">
-          <BestTool />
-        </div>
-
+        <Footer />
+        
       </ThemeProvider>
       <Background />
     </>

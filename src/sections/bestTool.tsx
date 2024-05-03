@@ -63,7 +63,7 @@ export function BestTool() {
     if (allChecked) {
       setTimeout(() => {
         setCheckedState([false, false, false, false, false , false]); // Reset Checkbox states
-      }, 5000); // Reset Checkbox states after 5 seconds
+      }, 3000); // Reset Checkbox states after 5 seconds
     }
   }, [checkedState]);
 

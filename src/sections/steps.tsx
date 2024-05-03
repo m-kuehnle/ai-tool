@@ -2,15 +2,13 @@ import project from "@/assets/project.svg";
 import { Button } from "@/components/ui/button";
 
 export function Steps() {
-
-  const scrollToSummarizer = (e: { preventDefault: () => void; }) => {
+  const scrollToSummarizer = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const summarizerElement = document.getElementById("summarizer");
     if (summarizerElement) {
       summarizerElement.scrollIntoView({ behavior: "smooth" });
     }
   };
-
   return (
     <div>
       <div className="max-w-5xl px-4 xl:px-0 py-10 lg:pt-20 lg:pb-20 mx-auto">
@@ -113,9 +111,9 @@ export function Steps() {
                 </p>
               </div>
             </div>
-            <a href="#" onClick={scrollToSummarizer}>
-          <Button variant="outline">Use it now</Button>
-        </a>
+            <a href="#summarizer">
+              <Button variant="outline">Use it now</Button>
+            </a>
           </div>
         </div>
       </div>

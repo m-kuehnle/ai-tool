@@ -1,17 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import CustomAlert from "./customAlert";
-import { Progress } from "@/components/ui/progress";
 import { fetchOctoAI } from "../api";
 import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
-import { items } from "@/utils/constants";
+import { text_examples } from "@/utils/constants";
+import { Loader2, Clipboard, ClipboardCheckIcon } from "lucide-react";
+import { countWords } from "../lib/utils";
+import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel-custom";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
-
-const countWords = (text: string) => {
-  return text.split(/\s+/).filter((word) => word !== "").length;
-};
 
 interface TextInputProps {
   example?: string;
@@ -22,33 +27,36 @@ const TextInput = ({ example }: TextInputProps) => {
   const [showAlert, setShowAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [outputText, setOutputText] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [summary] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
 
   const handleClick = async (text: string) => {
+    if (!text) {
+      setShowAlert(true);
+      setOutputText("");
+      setErrorMessage("Please enter a text to summarize.");
+      return;
+    }
+
+    const wordCount = countWords(text);
+    if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
+      setShowAlert(true);
+      setOutputText("");
+      setErrorMessage(
+        `Please make sure the Text contains ${
+          wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
+        } ${
+          wordCount > WORD_LIMIT_MAX ? WORD_LIMIT_MAX : WORD_LIMIT_MIN
+        } words.`
+      );
+      return;
+    }
     try {
       setIsFetching(true);
-
-      // Setze den Alert zurück
       setShowAlert(false);
 
-      if (text && text.trim() !== "") {
-        if (countWords(text) > 10000) {
-          // Wenn mehr als 10.000 Wörter eingegeben wurden, zeige einen Alert an
-          setShowAlert(true);
-          return;
-        }
-
-        let summaryText = text;
-
-        if (countWords(text) >= 15) {
-          summaryText = await fetchOctoAI(text, setProgress, VITE_OCTOAI_TOKEN);
-        }
-
-        setOutputText(summaryText);
-      } else {
-        setShowAlert(true); // Zeige eine Warnung an, wenn kein Text eingegeben wurde
-      }
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+      setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
       setOutputText("Error occurred while fetching data.");
@@ -58,81 +66,147 @@ const TextInput = ({ example }: TextInputProps) => {
   };
 
   return (
-    <>
-      <div className="mt-8 hidden sm:block">
-        <div>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={item.header}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-          <div>{summary}</div>
-        </div>
-      </div>
-
-      <Textarea
-        placeholder="Insert your text here..."
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        className="mt-4 text-gray-600 text-sm"
-      />
-      <Button
-        className="max-w-fit mt-4 bg-indigo-600 hover:bg-indigo-700 text-white"
-        onClick={() => handleClick(inputText || "")}
-      >
-        Summarize Text
-      </Button>
-
-      <div className="mt-8 block sm:hidden">
-        <div>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={item.header}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.example_text)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
-          <div>{summary}</div>
-        </div>
-      </div>
-
-      {showAlert && (
-        <CustomAlert
-          message={
-            countWords(inputText || "") > 10000
-              ? "You can only enter 10.000 words."
-              : "Please enter at least 15 words to summarize."
-          }
+    <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
+      <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
+        {/* Text Preview und Beispiele */}
+        <Textarea
+          placeholder="Insert your text here..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          className="text-gray-600 text-sm flex-grow "
         />
-      )}
 
-      {isFetching && (
-        <div className="max-w-60 mx-auto mt-4 flex justify-center">
-          <Progress value={progress} />
-        </div>
-      )}
+        {/* Examples */}
+        <div className="p-4">
+          <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+            Try some examples
+          </h3>
+          <div className="hidden sm:block">
+            <BentoGrid className="max-w-4xl mx-auto">
+              {text_examples.map((item, i) => (
+                <div key={i}>
+                  <BentoGridItem
+                    title={item.title}
+                    description={item.description}
+                    header={
+                      <img
+                        src={item.header}
+                        alt={item.title}
+                        className="w-full h-32 object-cover rounded-xl"
+                      />
+                    }
+                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                    onClick={() => setInputText(item.input)}
+                  />
+                </div>
+              ))}
+            </BentoGrid>
+          </div>
 
-      {outputText && (
-        <div className="bg-gray-100 rounded-md p-4 mt-4">
-          <h2 className="text-xl font-bold mb-2 text-gray-600 ">Summary:</h2>
-          <p className="text-gray-600 text-sl">{outputText}</p>
+          {/* Mobile Examples */}
+          <Carousel className="block sm:hidden">
+            <CarouselContent>
+              {text_examples.map((item, i) => (
+                <CarouselItem key={i}>
+                  <div className="p-1">
+                    <Card onClick={() => setInputText(item.input)}>
+                      <CardContent className="flex flex-col justify-between items-center p-6">
+                        <img
+                          src={item.header}
+                          alt={item.title}
+                          className="w-full h-32 object-cover rounded-xl my-4"
+                        />
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            {item.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
-      )}
-    </>
+      </div>
+
+      {/* Summary Output */}
+      <div
+        className={`overflow-auto bg-white dark:bg-background rounded-md p-4 sm:row-span-full order-3 ${
+          outputText ? "block" : "hidden sm:block"
+        }`}
+      >
+        <h2 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
+          Summary
+        </h2>
+        <div className="text-gray-600 text-sl dark:text-white my-4">
+          {outputText}
+          {!outputText && (
+            <>
+              <div className="space-y-2">
+                {[...Array(6)].map((_, index) => (
+                  <Skeleton key={index} className="h-4 w-full" />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Inputfeld und Schaltfläche zum Hochladen */}
+      <div className="flex flex-col gap-2 row-auto">
+        <div className="flex justify-end gap-2">
+          <Button
+            disabled={isFetching}
+            className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
+            onClick={() => handleClick(inputText || "")}
+          >
+            {isFetching ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Summarizing
+                ...
+              </>
+            ) : (
+              "Summarize Text"
+            )}
+          </Button>
+        </div>
+        {showAlert && (
+          <div className="mt-[10px]">
+            <CustomAlert message={errorMessage} />
+          </div>
+        )}
+      </div>
+
+      <div className="row-auto order-last">
+        {outputText && (
+          <Button
+            variant="outline"
+            onClick={() => {
+              navigator.clipboard.writeText(outputText);
+              setCopyClipboardSuccess(true);
+            }}
+          >
+            {!copyClipboardSuccess && (
+              <>
+                <Clipboard className="mr-2 h-4 w-4" />
+                Copy to Clipboard
+              </>
+            )}
+            {copyClipboardSuccess && (
+              <>
+                <ClipboardCheckIcon className="mr-2 h-4 w-4 text-emerald-500" />
+                Successfully Copied
+              </>
+            )}
+          </Button>
+        )}
+      </div>
+    </div>
   );
 };
 

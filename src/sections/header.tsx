@@ -1,4 +1,4 @@
-import icon from "@/assets/favicon.ico";
+import icon from "@/assets/logo.png";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import React, { useMemo } from "react";
 const Typewriter = React.lazy(async () => import("typewriter-effect"));

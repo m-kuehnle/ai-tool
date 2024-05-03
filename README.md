@@ -1,6 +1,7 @@
-# AI Summarizer
+![Summarizer](src/assets/logo.png)
+# Summarizer
 
-This application empowers users to summarize text from a variety of input sources. Currently, it supports text, PDF, and image inputs.
+This AI-powered application enables users to summarize text from diverse input sources. Presently, it accommodates text, PDF, and image inputs.
 
 ## Tech Stack
 
@@ -18,13 +19,13 @@ This application empowers users to summarize text from a variety of input source
 Clone the project
 
 ```bash
-  git clone https://github.com/m-kuehnle/ai-tool
+  git clone https://github.com/m-kuehnle/summarizer
 ```
 
 Go to the project directory
 
 ```bash
-  cd ai-tools
+  cd summarizer
 ```
 
 Install dependencies
@@ -41,7 +42,7 @@ Start the development server
 
 ## Demo
 
-Use the Live App: https://ai-tool.kuehnle.me
+Use the Live App: https://summarizer.kuehnle.me
 
 ## Environment Variables
 

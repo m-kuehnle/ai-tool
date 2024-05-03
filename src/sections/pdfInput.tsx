@@ -7,6 +7,12 @@ import { fetchOctoAI } from "../api";
 import { countWords } from "../lib/utils";
 import { Clipboard, ClipboardCheckIcon, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel-custom";
 
 // @ts-ignore
 import pdfToText from "react-pdftotext";
@@ -85,7 +91,6 @@ const PdfInput = () => {
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
-        
         {/* PDF Preview und Beispiele */}
         {uploadedFile && <PreviewPDF initialFile={uploadedFile} />}
 
@@ -95,38 +100,85 @@ const PdfInput = () => {
               Try some examples
             </h3>
 
-            <BentoGrid className="max-w-4xl mx-auto">
-              {pdfexamples.map((item, i) => (
-                <div key={i}>
-                  <BentoGridItem
-                    title={item.title}
-                    description={item.description}
-                    header={
-                      <img
-                        src={item.header}
-                        alt={item.title}
-                        className="w-full h-32 object-cover rounded-xl"
-                      />
-                    }
-                    onClick={() => {
-                      setUploadedFile(item.input);
-                      fetch(item.input)
-                        .then((response) => response.blob())
-                        .then((blob) => {
-                          const file = new File([blob], item.input, {
-                            type: "application/pdf",
-                          });
-                          extractTextFromFile(file);
-                        })
-                        .catch((error) =>
-                          console.error("Error fetching PDF:", error)
-                        );
-                    }}
-                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  />
-                </div>
-              ))}
-            </BentoGrid>
+            {/* Desktop Examples */}
+            <div className="hidden sm:block">
+              <BentoGrid className="max-w-4xl mx-auto">
+                {pdfexamples.map((item, i) => (
+                  <div key={i}>
+                    <BentoGridItem
+                      title={item.title}
+                      description={item.description}
+                      header={
+                        <img
+                          src={item.header}
+                          alt={item.title}
+                          className="w-full h-32 object-cover rounded-xl"
+                        />
+                      }
+                      onClick={() => {
+                        setUploadedFile(item.input);
+                        fetch(item.input)
+                          .then((response) => response.blob())
+                          .then((blob) => {
+                            const file = new File([blob], item.input, {
+                              type: "application/pdf",
+                            });
+                            extractTextFromFile(file);
+                          })
+                          .catch((error) =>
+                            console.error("Error fetching PDF:", error)
+                          );
+                      }}
+                      className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                    />
+                  </div>
+                ))}
+              </BentoGrid>
+            </div>
+
+            {/* Mobile Examples */}
+            <Carousel className="block sm:hidden">
+              <CarouselContent>
+                {pdfexamples.map((item, i) => (
+                  <CarouselItem key={i}>
+                    <div className="p-1">
+                      <Card
+                        onClick={() => {
+                          setUploadedFile(item.input);
+                          fetch(item.input)
+                            .then((response) => response.blob())
+                            .then((blob) => {
+                              const file = new File([blob], item.input, {
+                                type: "application/pdf",
+                              });
+                              extractTextFromFile(file);
+                            })
+                            .catch((error) =>
+                              console.error("Error fetching PDF:", error)
+                            );
+                        }}
+                      >
+                        <CardContent className="flex flex-col justify-between items-center p-6">
+                          <img
+                            src={item.header}
+                            alt={item.title}
+                            className="w-full h-32 object-cover rounded-xl my-4"
+                          />
+                          <div>
+                            <h3 className="text-lg font-semibold mb-2">
+                              {item.title}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {item.description}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         )}
       </div>

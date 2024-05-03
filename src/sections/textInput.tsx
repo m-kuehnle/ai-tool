@@ -9,6 +9,13 @@ import { Loader2, Clipboard, ClipboardCheckIcon } from "lucide-react";
 import { countWords } from "../lib/utils";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel-custom";
+import { text } from "stream/consumers";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -71,29 +78,60 @@ const TextInput = ({ example }: TextInputProps) => {
         />
 
         {/* Examples */}
-        <div className="p-4 ">
+        <div className="p-4">
           <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
             Try some examples
           </h3>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {text_examples.map((item, i) => (
-              <div key={i}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={
-                    <img
-                      src={item.header}
-                      alt={item.title}
-                      className="w-full h-32 object-cover rounded-xl"
-                    />
-                  }
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  onClick={() => setInputText(item.input)}
-                />
-              </div>
-            ))}
-          </BentoGrid>
+          <div className="hidden sm:block">
+            <BentoGrid className="max-w-4xl mx-auto">
+              {text_examples.map((item, i) => (
+                <div key={i}>
+                  <BentoGridItem
+                    title={item.title}
+                    description={item.description}
+                    header={
+                      <img
+                        src={item.header}
+                        alt={item.title}
+                        className="w-full h-32 object-cover rounded-xl"
+                      />
+                    }
+                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                    onClick={() => setInputText(item.input)}
+                  />
+                </div>
+              ))}
+            </BentoGrid>
+          </div>
+
+          {/* Mobile Examples */}
+          <Carousel className="block sm:hidden">
+            <CarouselContent>
+              {text_examples.map((item, i) => (
+                <CarouselItem key={i}>
+                  <div className="p-1">
+                    <Card onClick={() => setInputText(item.input)}>
+                      <CardContent className="flex flex-col justify-between items-center p-6">
+                        <img
+                          src={item.header}
+                          alt={item.title}
+                          className="w-full h-32 object-cover rounded-xl my-4"
+                        />
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            {item.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </div>
 

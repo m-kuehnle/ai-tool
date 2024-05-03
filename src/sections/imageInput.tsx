@@ -10,6 +10,12 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { image_examples } from "@/utils/constants";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel-custom";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -106,10 +112,7 @@ const ImageInput = () => {
         {/* Image Preview und Beispiele */}
         {uploadedFile && (
           <div className="mt-2 relative">
-            <img
-              src={URL.createObjectURL(uploadedFile)}
-              alt="Uploaded Image"
-            />
+            <img src={URL.createObjectURL(uploadedFile)} alt="Uploaded Image" />
           </div>
         )}
 
@@ -119,28 +122,64 @@ const ImageInput = () => {
               Try some examples
             </h3>
 
-            <BentoGrid className="max-w-4xl mx-auto">
-              {image_examples.map((item, i) => (
-                <div key={i}>
-                  <BentoGridItem
-                    title={item.title}
-                    description={item.description}
-                    header={
-                      <img
-                        src={item.header}
-                        alt={item.title}
-                        className="w-full h-32 object-cover rounded-xl"
-                      />
-                    }
-                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                    onClick={async () => {
-                      const file = await convertUrlToFile(item.input);
-                      setUploadedFile(file);
-                    }}
-                  />
-                </div>
-              ))}
-            </BentoGrid>
+            <div className="hidden sm:block">
+              <BentoGrid className="max-w-4xl mx-auto">
+                {image_examples.map((item, i) => (
+                  <div key={i}>
+                    <BentoGridItem
+                      title={item.title}
+                      description={item.description}
+                      header={
+                        <img
+                          src={item.header}
+                          alt={item.title}
+                          className="w-full h-32 object-cover rounded-xl"
+                        />
+                      }
+                      className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                      onClick={async () => {
+                        const file = await convertUrlToFile(item.input);
+                        setUploadedFile(file);
+                      }}
+                    />
+                  </div>
+                ))}
+              </BentoGrid>
+            </div>
+
+            {/* Mobile Examples */}
+            <Carousel className="block sm:hidden">
+              <CarouselContent>
+                {image_examples.map((item, i) => (
+                  <CarouselItem key={i}>
+                    <div className="p-1">
+                      <Card
+                        onClick={async () => {
+                          const file = await convertUrlToFile(item.input);
+                          setUploadedFile(file);
+                        }}
+                      >
+                        <CardContent className="flex flex-col justify-between items-center p-6">
+                          <img
+                            src={item.header}
+                            alt={item.title}
+                            className="w-full h-32 object-cover rounded-xl my-4"
+                          />
+                          <div>
+                            <h3 className="text-lg font-semibold mb-2">
+                              {item.title}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {item.description}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         )}
       </div>

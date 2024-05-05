@@ -10,7 +10,7 @@ import FAQ from "./sections/FAQ";
 import Steps from "./sections/steps";
 import Background from "./sections/background";
 import Footer from "./sections/footer";
-import { BestTool } from "./sections/bestTool"
+import BestTool from "./sections/bestTool";
 
 function App() {
   const inputOptions = ["text-input", "file-input", "image-input"];
@@ -44,8 +44,6 @@ function App() {
             ))}
           </Tabs>
         </div>
-
-  
 
         <div className="mt-10">
           <Steps />

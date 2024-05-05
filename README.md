@@ -40,6 +40,14 @@ Start the development server
   npm run dev
 ```
 
+## Run Tests
+
+To execute tests, run the following command
+
+```bash
+  npm run test
+```
+
 ## Demo
 
 Use the Live App: https://summarizer.kuehnle.me

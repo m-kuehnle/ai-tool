@@ -12,7 +12,6 @@ export function BestTool() {
     false,
     false,
     false,
-    false,
   ]);
   const containerRef = useRef(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

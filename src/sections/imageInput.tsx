@@ -217,10 +217,14 @@ const ImageInput = () => {
             onChange={(e) =>
               setUploadedFile(e.target.files ? e.target.files[0] : null)
             }
-          />
-          <Button
             disabled={isFetching}
-            className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
+          />
+
+          <Button
+            disabled={!uploadedFile || isFetching}
+            className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
+              (!uploadedFile || isFetching) && "bg-gray-400 cursor-not-allowed"
+            }`}
             onClick={handleImageUpload}
           >
             {isFetching ? (

@@ -214,10 +214,14 @@ const PdfInput = () => {
             className="max-w-fit"
             accept="application/pdf"
             onChange={initializeFile}
-          />
-          <Button
             disabled={isFetching}
-            className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
+          />
+
+          <Button
+            disabled={!uploadedFile || isFetching}
+            className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
+              (!uploadedFile || isFetching) && "bg-gray-400 cursor-not-allowed"
+            }`}
             onClick={() => summarizeText(pdfText)}
           >
             {isFetching ? (

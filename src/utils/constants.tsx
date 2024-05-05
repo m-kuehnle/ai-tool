@@ -4,12 +4,12 @@ import Hund from "../assets/hund.jpg";
 import Giraffe from "../assets/Giraffe_Screenshot.png";
 import News from "../assets/News.png";
 import Chocolate_Photo from "../assets/Chocolate_Photo.jpeg";
-import animales from "../lib/australien.pdf";
+import animals from "../lib/australien.pdf";
 import spacex from "../lib/spacex.pdf";
 import nasa from "../lib/nasa.pdf";
 import marsscreen from "../assets/marspdfscreen.png"
 import nasascreen from "../assets/nasascreen.png"
-import tierepdfscreen from "../assets/animales.png"
+import animals_image from "../assets/animals.png"
 
 interface Item {
   title: string;
@@ -69,12 +69,12 @@ export const image_examples: Item[] = [
 
 export const pdfexamples: Item[] = [
   {
-    title: "Animales",
+    title: "Animals",
     description:
-      "Click on this card to open the PDF about Animales.",
-    header: tierepdfscreen ,
+      "Click on this card to open the PDF about Animals.",
+    header: animals_image ,
 
-    input: animales,
+    input: animals,
   },
   {
     title: "NASA",

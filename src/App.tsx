@@ -53,7 +53,6 @@ function App() {
         </div>
 
         <Footer />
-        
       </ThemeProvider>
       <Background />
     </>

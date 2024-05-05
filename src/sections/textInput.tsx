@@ -161,8 +161,10 @@ const TextInput = ({ example }: TextInputProps) => {
       <div className="flex flex-col gap-2 row-auto">
         <div className="flex justify-end gap-2">
           <Button
-            disabled={isFetching}
-            className="max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white"
+            disabled={!inputText || isFetching}
+            className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
+              (!inputText || isFetching) && "bg-gray-400 cursor-not-allowed"
+            }`}
             onClick={() => handleClick(inputText || "")}
           >
             {isFetching ? (

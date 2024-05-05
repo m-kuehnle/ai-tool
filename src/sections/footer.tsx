@@ -11,15 +11,7 @@ const footer = () => {
           Icon Credit: Icongeek26 - Flaticon
         </a>
       </div>
-        <div className="my-2 text-center">
-          <a
-            href="https://www.flaticon.com/search?word=tool"
-            title="investigation icons"
-            className="text-gray-500 text-sm"
-          >
-            Icon Tool/Picture Credit: Freepik - Flaticon
-          </a>
-        </div>
+
       </div></>
   );
 };

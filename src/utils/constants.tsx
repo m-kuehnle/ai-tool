@@ -4,7 +4,7 @@ import Hund from "../assets/hund.jpg";
 import Giraffe from "../assets/Giraffe_Screenshot.png";
 import News from "../assets/News.png";
 import Chocolate_Photo from "../assets/Chocolate_Photo.jpeg";
-import animales from "../lib/australienAnimales-compressed.pdf";
+import animales from "../lib/australien.pdf";
 import spacex from "../lib/spacex.pdf";
 import nasa from "../lib/nasa.pdf";
 import marsscreen from "../assets/marspdfscreen.png"

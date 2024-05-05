@@ -4,13 +4,12 @@ import Hund from "../assets/hund.jpg";
 import Giraffe from "../assets/Giraffe_Screenshot.png";
 import News from "../assets/News.png";
 import Chocolate_Photo from "../assets/Chocolate_Photo.jpeg";
-import bundestag from "../assets/imageofpdf.png";
-import bundestagpdf from "../lib/bundestag.pdf";
+import animales from "../lib/australienAnimales-compressed.pdf";
 import spacex from "../lib/spacex.pdf";
 import nasa from "../lib/nasa.pdf";
 import marsscreen from "../assets/marspdfscreen.png"
 import nasascreen from "../assets/nasascreen.png"
-import tierepdfscreen from "../assets/tierepdf.png"
+import tierepdfscreen from "../assets/animales.png"
 
 interface Item {
   title: string;
@@ -75,7 +74,7 @@ export const pdfexamples: Item[] = [
       "Click on this card to open the PDF about Animales.",
     header: tierepdfscreen ,
 
-    input: bundestagpdf,
+    input: animales,
   },
   {
     title: "NASA",

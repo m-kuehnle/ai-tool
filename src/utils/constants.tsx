@@ -7,9 +7,9 @@ import Chocolate_Photo from "../assets/Chocolate_Photo.jpeg";
 import animals from "../lib/australien.pdf";
 import spacex from "../lib/spacex.pdf";
 import nasa from "../lib/nasa.pdf";
-import marsscreen from "../assets/marspdfscreen.png"
-import nasascreen from "../assets/nasascreen.png"
-import animals_image from "../assets/animals.png"
+import marsscreen from "../assets/marspdfscreen.png";
+import nasascreen from "../assets/nasascreen.png";
+import animals_image from "../assets/animals.png";
 
 interface Item {
   title: string;
@@ -31,8 +31,7 @@ export const text_examples: Item[] = [
   },
   {
     title: "Ronaldo",
-    description:
-      "Click on this card to use the text about Ronaldo.",
+    description: "Click on this card to use the text about Ronaldo.",
     header: Ronaldo,
     input:
       "Cristiano Ronaldo, often hailed as one of the greatest footballers of all time, has left an indelible mark on the world of soccer. Born on February 5, 1985, in Madeira, Portugal, Ronaldo's journey from humble beginnings to global superstar is a testament to his unparalleled talent, dedication, and relentless work ethic.His illustrious career has seen him excel at some of the biggest clubs in Europe, including Sporting Lisbon, Manchester United, Real Madrid, and Juventus. With his remarkable speed, extraordinary dribbling skills, and lethal finishing ability, Ronaldo has shattered numerous records and won countless individual awards, including five Ballon d'Or titles. Beyond his on-field achievements, Ronaldo's impact transcends football. He is a global icon, admired for his philanthropy, charisma, and leadership both on and off the pitch. Ronaldo's immense popularity extends far beyond the realm of sports, with millions of followers on social media and lucrative endorsement deals with leading brands.Despite facing challenges and criticism throughout his career, Ronaldo's unwavering determination and passion for the game have propelled him to unprecedented heights. Whether he's representing his country on the international stage or dazzling fans with his performances for his club, Ronaldo's legacy as one of football's true legends is firmly cemented in history.",
@@ -55,7 +54,8 @@ export const image_examples: Item[] = [
   },
   {
     title: "Che Guevara",
-    description: "Click on this card to summarize the text about the Che Guevara.",
+    description:
+      "Click on this card to summarize the text about the Che Guevara.",
     header: News,
     input: News,
   },
@@ -70,10 +70,8 @@ export const image_examples: Item[] = [
 export const pdfexamples: Item[] = [
   {
     title: "Animals",
-    description:
-      "Click on this card to open the PDF about Animals.",
-    header: animals_image ,
-
+    description: "Click on this card to open the PDF about Animals.",
+    header: animals_image,
     input: animals,
   },
   {

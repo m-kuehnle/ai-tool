@@ -19,7 +19,6 @@ import pdfToText from "react-pdftotext";
 
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { pdfexamples } from "@/utils/constants";
-import PreviewPDF from "./pdfPreview";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
 
 // AI API-Key
@@ -88,11 +87,23 @@ const PdfInput = () => {
     }
   };
 
+  const src =
+    uploadedFile instanceof File
+      ? URL.createObjectURL(uploadedFile)
+      : uploadedFile || "";
+
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         {/* PDF Preview und Beispiele */}
-        {uploadedFile && <PreviewPDF initialFile={uploadedFile} />}
+        {uploadedFile && (
+          <embed
+            className="w-full h-full"
+            src={src}
+            title="PDF Viewer"
+            type="application/pdf"
+          ></embed>
+        )}
 
         {!uploadedFile && (
           <div>

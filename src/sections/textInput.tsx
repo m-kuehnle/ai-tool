@@ -54,7 +54,6 @@ const TextInput = ({ example }: TextInputProps) => {
     try {
       setIsFetching(true);
       setShowAlert(false);
-
       let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
       setOutputText(summaryText);
     } catch (error) {

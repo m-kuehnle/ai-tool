@@ -1,13 +1,39 @@
+// Function to remove unwanted characters from the text
+function sanitizeTextInput(input: string): string {
+  // Regular expression to match allowed characters
+  const regex = /[^a-zA-Z0-9\s+$%&-]/g;
+  // Filter out unwanted characters using the regular expression
+  const sanitizedInput = input.replace(regex, "");
+
+  return sanitizedInput;
+}
+
+// Function to fetch the summary from OctoAI
 export const fetchOctoAI = async (text: string, VITE_OCTOAI_TOKEN: string) => {
-  // Anfrage an die API senden
+  try {
+    // Filter the text
+    const filteredText = sanitizeTextInput(text);
+    console.log("Filtered text:", filteredText);
+
+    // Fetch the summary
+    const summary = await fetchSummary(filteredText, VITE_OCTOAI_TOKEN);
+    return summary;
+  } catch (error: any) {
+    console.error("Error fetching data:", error);
+    return "Error fetching data: " + error.message;
+  }
+};
+
+// Function to fetch a summary for the text
+const fetchSummary = async (text: string, token: string): Promise<string> => {
   const requestData = {
     messages: [
       {
         role: "user",
-        content: `Summarize the given text as briefly as possible in English. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text}`,
+        content: `Provide an overall briefly as possible summary about the given input text in English. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text} `,
       },
     ],
-    model: "llama-2-13b-chat",
+    model: "meta-llama-3-8b-instruct",
     presence_penalty: 0,
     temperature: 0.1,
     top_p: 0.9,
@@ -17,7 +43,7 @@ export const fetchOctoAI = async (text: string, VITE_OCTOAI_TOKEN: string) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${VITE_OCTOAI_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(requestData),
   });
@@ -27,13 +53,11 @@ export const fetchOctoAI = async (text: string, VITE_OCTOAI_TOKEN: string) => {
   }
 
   const responseData = await response.json();
-  // check model and usage statistics
-  // console.log("model: ", responseData.model);
-  // console.log("usage: ", responseData.usage);
   const summary = extractSummaryText(responseData.choices[0].message.content);
   return summary;
 };
 
+// Function to extract the summary from the API response
 function extractSummaryText(summary: string): string {
   const startMark = "SUMMARY_START";
   const endMark = "SUMMARY_END";

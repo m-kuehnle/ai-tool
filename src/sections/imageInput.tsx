@@ -66,7 +66,7 @@ const ImageInput = () => {
               wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
             } ${
               wordCount > WORD_LIMIT_MAX ? WORD_LIMIT_MAX : WORD_LIMIT_MIN
-            } words.`
+            } words. Your word count is ${wordCount}.`
           );
           return;
         }

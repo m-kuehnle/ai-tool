@@ -18,7 +18,8 @@ interface Item {
   input: string;
 }
 
-export const WORD_LIMIT_MAX = 10000;
+// Word limit for text summarization matches the API's requirements
+export const WORD_LIMIT_MAX = 6000;
 export const WORD_LIMIT_MIN = 50;
 
 export const text_examples: Item[] = [

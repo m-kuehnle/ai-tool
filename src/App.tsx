@@ -42,7 +42,7 @@ function App() {
                 {value === "image-input" && <ImageInput />}
               </TabsContent>
             ))}
-          </Tabs>
+          </Tabs> 
         </div>
 
         <div className="mt-10">

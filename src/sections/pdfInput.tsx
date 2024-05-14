@@ -32,7 +32,7 @@ const PdfInput = () => {
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
   type PDFFile = string | File | null;
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
-  const [errorMessage, seterrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const initializeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
@@ -55,7 +55,7 @@ const PdfInput = () => {
     if (!text) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage("Please upload a PDF to summarize.");
+      setErrorMessage("Please upload a PDF to summarize.");
       return;
     }
 
@@ -64,7 +64,7 @@ const PdfInput = () => {
     if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage(
+      setErrorMessage(
         `Please make sure the PDF contains ${
           wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
         } ${

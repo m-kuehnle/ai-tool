@@ -15,6 +15,15 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel-custom";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
@@ -29,6 +38,7 @@ const TextInput = ({ example }: TextInputProps) => {
   const [outputText, setOutputText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
+  const [language, setLanguage] = useState("English"); // State für die Sprache
 
   const handleClick = async (text: string) => {
     if (!text) {
@@ -54,7 +64,7 @@ const TextInput = ({ example }: TextInputProps) => {
     try {
       setIsFetching(true);
       setShowAlert(false);
-      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN, language); // Sprache an API-Aufruf übergeben
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -67,15 +77,13 @@ const TextInput = ({ example }: TextInputProps) => {
   return (
     <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-4 sm:place-content-stretch h-full">
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
-        {/* Text Preview und Beispiele */}
         <Textarea
           placeholder="Insert your text here..."
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="text-gray-600 text-sm flex-grow "
+          className="text-gray-600 text-sm flex-grow"
         />
 
-        {/* Examples */}
         <div className="p-4">
           <h3 className="text-xl font-bold mb-2 text-gray-600 dark:text-white">
             Try some examples
@@ -102,7 +110,6 @@ const TextInput = ({ example }: TextInputProps) => {
             </BentoGrid>
           </div>
 
-          {/* Mobile Examples */}
           <Carousel className="block sm:hidden">
             <CarouselContent>
               {text_examples.map((item, i) => (
@@ -133,7 +140,6 @@ const TextInput = ({ example }: TextInputProps) => {
         </div>
       </div>
 
-      {/* Summary Output */}
       <div
         className={`overflow-auto bg-white dark:bg-background rounded-md p-4 sm:row-span-full order-3 ${
           outputText ? "block" : "hidden sm:block"
@@ -156,9 +162,21 @@ const TextInput = ({ example }: TextInputProps) => {
         </div>
       </div>
 
-      {/* Inputfeld und Schaltfläche zum Hochladen */}
       <div className="flex flex-col gap-2 row-auto">
         <div className="flex justify-end gap-2">
+          <Select onValueChange={(value) => setLanguage(value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="English" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Language</SelectLabel>
+                <SelectItem value="German">German</SelectItem>
+                <SelectItem value="English">English</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
           <Button
             disabled={!inputText || isFetching}
             className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
@@ -172,7 +190,7 @@ const TextInput = ({ example }: TextInputProps) => {
                 ...
               </>
             ) : (
-              "Summarize Text"
+              "Summarize"
             )}
           </Button>
         </div>

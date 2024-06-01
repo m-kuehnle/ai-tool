@@ -20,6 +20,15 @@ import pdfToText from "react-pdftotext";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { pdfexamples } from "@/utils/constants";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -33,6 +42,7 @@ const PdfInput = () => {
   type PDFFile = string | File | null;
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [language, setLanguage] = useState("English"); // State für die Sprache
 
   const initializeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
@@ -77,7 +87,7 @@ const PdfInput = () => {
       setIsFetching(true);
       setShowAlert(false);
 
-      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN, language); // Sprache an API-Aufruf übergeben
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -227,10 +237,22 @@ const PdfInput = () => {
             onChange={initializeFile}
             disabled={isFetching}
           />
+            <Select onValueChange={(value) => setLanguage(value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="English" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Language</SelectLabel>
+                <SelectItem value="German">German</SelectItem>
+                <SelectItem value="English">English</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
           <Button
             disabled={!uploadedFile || isFetching}
-            className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
+            className={`max-w-fith-full bg-indigo-600 hover:bg-indigo-700 text-white  ${
               (!uploadedFile || isFetching) && "bg-gray-400 cursor-not-allowed"
             }`}
             onClick={() => summarizeText(pdfText)}
@@ -241,7 +263,7 @@ const PdfInput = () => {
                 ...
               </>
             ) : (
-              "Summarize Text"
+              "Summarize"
             )}
           </Button>
         </div>

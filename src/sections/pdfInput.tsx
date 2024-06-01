@@ -97,12 +97,11 @@ const PdfInput = () => {
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         {/* PDF Preview und Beispiele */}
         {uploadedFile && (
-          <embed
-            className="w-full h-full"
-            src={src}
-            title="PDF Viewer"
-            type="application/pdf"
-          ></embed>
+          <object data={src} type="application/pdf" className="w-full h-full">
+            <p>
+              The PDF could not be opened. However, it can still be summarized.
+            </p>
+          </object>
         )}
 
         {!uploadedFile && (

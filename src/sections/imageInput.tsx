@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CustomAlert from "./customAlert";
@@ -17,6 +18,16 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel-custom";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"; // Import des Select-Komponenten-Pakets
+
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
 
 const ImageInput = () => {
@@ -26,13 +37,15 @@ const ImageInput = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
+  const [language, setLanguage] = useState("English"); // State für die Sprache
+
 
   const handleClick = async (text: string) => {
     try {
       setIsFetching(true);
       setShowAlert(false);
-
-      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+  
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN, language); // Sprache als drittes Argument übergeben
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -41,6 +54,7 @@ const ImageInput = () => {
       setIsFetching(false);
     }
   };
+  
 
   const handleImageUpload = async () => {
     if (!uploadedFile) {
@@ -49,13 +63,13 @@ const ImageInput = () => {
       return;
     }
     setIsFetching(true);
-
+  
     const reader = new FileReader();
     reader.onload = async (e: ProgressEvent<FileReader>) => {
       const target = e.target as FileReader;
       if (target && target.result) {
-        const extractedText = await extractTextFromImage(uploadedFile);
-
+        const extractedText = await extractTextFromImage(uploadedFile, language); // Sprache als zweites Argument übergeben
+  
         const wordCount = countWords(extractedText);
         if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
           setShowAlert(true);
@@ -76,7 +90,7 @@ const ImageInput = () => {
     reader.readAsDataURL(uploadedFile);
   };
 
-  const extractTextFromImage = async (file: File): Promise<string> => {
+  const extractTextFromImage = async (file: File, _language?: string): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = async (event) => {
@@ -220,6 +234,19 @@ const ImageInput = () => {
             disabled={isFetching}
           />
 
+          <Select onValueChange={(value) => setLanguage(value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="English" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Language</SelectLabel>
+                <SelectItem value="German">German</SelectItem>
+                <SelectItem value="English">English</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
           <Button
             disabled={!uploadedFile || isFetching}
             className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
@@ -233,7 +260,7 @@ const ImageInput = () => {
                 ...
               </>
             ) : (
-              "Summarize Text"
+              "Summarize"
             )}
           </Button>
         </div>

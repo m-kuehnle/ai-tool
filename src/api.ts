@@ -1,36 +1,9 @@
-// Function to remove unwanted characters from the text
-function sanitizeTextInput(input: string): string {
-  // Regular expression to match allowed characters
-  const regex = /[^a-zA-Z0-9\s+$%&-]/g;
-  // Filter out unwanted characters using the regular expression
-  const sanitizedInput = input.replace(regex, "");
-
-  return sanitizedInput;
-}
-
-// Function to fetch the summary from OctoAI
-export const fetchOctoAI = async (text: string, VITE_OCTOAI_TOKEN: string) => {
-  try {
-    // Filter the text
-    const filteredText = sanitizeTextInput(text);
-    console.log("Filtered text:", filteredText);
-
-    // Fetch the summary
-    const summary = await fetchSummary(filteredText, VITE_OCTOAI_TOKEN);
-    return summary;
-  } catch (error: any) {
-    console.error("Error fetching data:", error);
-    return "Error fetching data: " + error.message;
-  }
-};
-
-// Function to fetch a summary for the text
-const fetchSummary = async (text: string, token: string): Promise<string> => {
+export const fetchOctoAI = async (text: string, token: string, language: string): Promise<string> => {
   const requestData = {
     messages: [
       {
         role: "user",
-        content: `Provide an overall briefly as possible summary about the given input text in English not in bold. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text} `,
+        content: `Provide an overall briefly as possible summary about the given input text in ${language}.The text should be not in bold. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text}`,
       },
     ],
     model: "meta-llama-3-8b-instruct",

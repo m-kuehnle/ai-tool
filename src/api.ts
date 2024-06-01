@@ -3,7 +3,7 @@ export const fetchOctoAI = async (text: string, token: string, language: string)
     messages: [
       {
         role: "user",
-        content: `Provide an overall briefly as possible summary about the given input text in ${language}.The text should be not in bold. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text}`,
+        content: `Provide an overall briefly as possible summary about the given input text. Make sure the summary is in ${language}. The text should be not in bold. Place SUMMARY_START before the summary starts and SUMMARY_END after it is finished. This is the given text to summarize: ${text}`,
       },
     ],
     model: "meta-llama-3-8b-instruct",

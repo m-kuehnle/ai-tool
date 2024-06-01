@@ -3,8 +3,13 @@ import { Button } from "@/components/ui/button";
 
 export function Steps() {
   const scrollToSummarizer = (e: { preventDefault: () => void }) => {
+    // Prevent the default link behavior from occurring.
     e.preventDefault();
+
+    // Get the Summarizer section element.
     const summarizerElement = document.getElementById("summarizer");
+
+    // If the element exists, scroll it into view using the "smooth" animation.
     if (summarizerElement) {
       summarizerElement.scrollIntoView({ behavior: "smooth" });
     }
@@ -14,7 +19,7 @@ export function Steps() {
     <div>
       <div className="max-w-5xl px-4 xl:px-0 py-10 lg:pt-20 lg:pb-20 mx-auto">
         <div className="max-w-3xl mb-10 lg:mb-14">
-          <h2 className="text-indigo-600 font-semibold text-2xl md:text-4xl md:leading-tight">
+          <h2 className="text-indigo-600 font-semibold text-2xl md:text-4xl md:leading-tight ">
             How to use the Summarizer?
           </h2>
           <p className="mt-1 text-neutral-400">

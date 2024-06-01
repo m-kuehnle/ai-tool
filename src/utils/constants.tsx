@@ -105,7 +105,7 @@ export const faqData = [
     question:
       "Can I interact with the website in languages other than English?",
     answer:
-      "At present, our website primarily supports English. If your text is in another language, consider translating it before input. We're actively working to expand language support in the future.",
+      "Yes, currently it's possible to interact with the website in both German and English.",
   },
   {
     question: "Is there a word limit for text summarization?",

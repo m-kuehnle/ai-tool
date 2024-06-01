@@ -20,6 +20,15 @@ import pdfToText from "react-pdftotext";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { pdfexamples } from "@/utils/constants";
 import { WORD_LIMIT_MAX, WORD_LIMIT_MIN } from "../utils/constants";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // AI API-Key
 const { VITE_OCTOAI_TOKEN } = import.meta.env;
@@ -32,7 +41,8 @@ const PdfInput = () => {
   const [copyClipboardSuccess, setCopyClipboardSuccess] = useState(false);
   type PDFFile = string | File | null;
   const [uploadedFile, setUploadedFile] = useState<PDFFile>(null);
-  const [errorMessage, seterrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [language, setLanguage] = useState("English"); // State für die Sprache
 
   const initializeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     setUploadedFile(event.target.files ? event.target.files[0] : null);
@@ -55,7 +65,7 @@ const PdfInput = () => {
     if (!text) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage("Please upload a PDF to summarize.");
+      setErrorMessage("Please upload a PDF to summarize.");
       return;
     }
 
@@ -64,7 +74,7 @@ const PdfInput = () => {
     if (wordCount > WORD_LIMIT_MAX || wordCount < WORD_LIMIT_MIN) {
       setShowAlert(true);
       setOutputText("");
-      seterrorMessage(
+      setErrorMessage(
         `Please make sure the PDF contains ${
           wordCount > WORD_LIMIT_MAX ? "at most" : "at least"
         } ${
@@ -77,7 +87,7 @@ const PdfInput = () => {
       setIsFetching(true);
       setShowAlert(false);
 
-      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN);
+      let summaryText = await fetchOctoAI(text, VITE_OCTOAI_TOKEN, language); // Sprache an API-Aufruf übergeben
       setOutputText(summaryText);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -97,12 +107,11 @@ const PdfInput = () => {
       <div className="overflow-auto bg-white dark:bg-background rounded-md p-4 row-span-full order-2">
         {/* PDF Preview und Beispiele */}
         {uploadedFile && (
-          <embed
-            className="w-full h-full"
-            src={src}
-            title="PDF Viewer"
-            type="application/pdf"
-          ></embed>
+          <object data={src} type="application/pdf" className="w-full h-full">
+            <p>
+              The PDF could not be opened. However, it can still be summarized.
+            </p>
+          </object>
         )}
 
         {!uploadedFile && (
@@ -227,10 +236,22 @@ const PdfInput = () => {
             onChange={initializeFile}
             disabled={isFetching}
           />
+            <Select onValueChange={(value) => setLanguage(value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="English" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Language</SelectLabel>
+                <SelectItem value="German">German</SelectItem>
+                <SelectItem value="English">English</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
           <Button
             disabled={!uploadedFile || isFetching}
-            className={`max-w-fit bg-indigo-600 hover:bg-indigo-700 text-white ${
+            className={`max-w-fith-full bg-indigo-600 hover:bg-indigo-700 text-white  ${
               (!uploadedFile || isFetching) && "bg-gray-400 cursor-not-allowed"
             }`}
             onClick={() => summarizeText(pdfText)}
@@ -241,7 +262,7 @@ const PdfInput = () => {
                 ...
               </>
             ) : (
-              "Summarize Text"
+              "Summarize"
             )}
           </Button>
         </div>
